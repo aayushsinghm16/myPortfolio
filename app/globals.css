@@ -1,0 +1,71 @@
+@tailwind base; 
+@tailwind components; 
+@tailwind utilities;
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+}
+
+.slides {
+    display: flex;
+    height: 600px;
+    position: relative;
+    width: 100%;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    justify-content: center;
+}
+
+.slide {
+    width: 400px;
+    height: 500px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    position: absolute;
+    transition: transform 0.3s ease-in-out;
+}
+
+.slide.active {
+    z-index: 1000;
+    transform: scale(1.2);
+}
+.slide.prev{
+    z-index: 1;
+      box-shadow: 0 6px 10px 0 rgba(0,0,0,.3), 0 2px 2px 0 rgba(0,0,0,.2);
+    transform: translate3d(-50%,0,-100px);
+}
+.slide.current{
+    box-shadow: 0 13px 25px 0 rgba(0,0,0,.3), 0 11px 7px 0 rgba(0,0,0,.19);
+    transform: translate3d(0,0,0) scale(1.2);
+}   
+.slide.next{
+    z-index: 1;
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,.3), 0 2px 2px 0 rgba(0,0,0,.2);
+    transform: translate3d(50%,0,-100px);
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
+}
