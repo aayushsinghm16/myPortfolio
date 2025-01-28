@@ -232,7 +232,7 @@ export default function Contact() {
                 </Head>
 
                 <main className="bg-gradient-to-b from-gray-50 to-gray-100">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" style={{ paddingBottom: '0.6rem' }}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" style={{ paddingBottom: '0.8rem' }}>
                         <div className="max-w-md mx-auto">
                             <div className="text-center">
                                 <h1 className="text-4xl font-bold text-gray-900 mb-2">Get in Touch</h1>
