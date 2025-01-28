@@ -34,7 +34,7 @@ export default function Contact() {
                 toast.error('Failed to send message. Please try again.');
             }
         } catch (error) {
-            toast.error('Something went wrong. Please try again later.');
+            toast.error('Something went wrong. Please try again later.:' + error);
         } finally {
             setIsSubmitting(false);
         }
@@ -53,7 +53,7 @@ export default function Contact() {
                         <div className="text-center">
                             <h1 className="text-4xl font-bold text-gray-900 mb-2">Get in Touch</h1>
                             <p className="text-lg text-gray-600 mb-8">
-                                Have a question or want to work together? Let's connect!
+                                Have a question or want to work together? Let&apos;s connect!
                             </p>
                         </div>
 

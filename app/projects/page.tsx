@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface Project {
     id: number;
@@ -64,10 +65,12 @@ const ProjectsPage: React.FC = () => {
                             key={project.id}
                             className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
                         >
-                            <img
+                            <Image
                                 src={project.imageUrl}
                                 alt={project.title}
-                                className="w-full h-48 object-cover "
+                                width={400}
+                                height={200}
+                                className="w-full h-48 object-cover"
                             />
                             <div className="p-4">
                                 <h2 className="text-2xl font-semibold mb-2">{project.title}</h2>

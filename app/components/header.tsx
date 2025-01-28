@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaLaptopCode } from 'react-icons/fa';
 
 const Header: React.FC = () => {
     return (

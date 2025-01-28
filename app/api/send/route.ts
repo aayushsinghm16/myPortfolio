@@ -15,9 +15,9 @@ export async function POST(request: Request) {
             react: EmailTemplate({ name: name, email: email, message: message }),
         });
         return NextResponse.json({ success: true, data });
-    } catch (error) {
+    } catch (err) {
         return NextResponse.json(
-            { error: 'Failed to send email' },
+            { error: 'Failed to send email:' + err },
             { status: 500 }
         );
     }

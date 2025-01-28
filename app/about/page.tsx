@@ -79,32 +79,6 @@ const About: React.FC = () => {
                             </p>
                         </div>
                     </div>
-                    {/* <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-                        <div className="flex flex-col items-center">
-                            <div className="w-32 h-32 rounded-full border-4 border-blue-600 flex items-center justify-center">
-                                <span className="text-2xl font-bold">95%</span>
-                            </div>
-                            <span className="mt-4 font-semibold">TypeScript</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="w-32 h-32 rounded-full border-4 border-green-600 flex items-center justify-center">
-                                <span className="text-2xl font-bold">90%</span>
-                            </div>
-                            <span className="mt-4 font-semibold">JavaScript</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="w-32 h-32 rounded-full border-4 border-purple-600 flex items-center justify-center">
-                                <span className="text-2xl font-bold">85%</span>
-                            </div>
-                            <span className="mt-4 font-semibold">GraphQL</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div className="w-32 h-32 rounded-full border-4 border-pink-600 flex items-center justify-center">
-                                <span className="text-2xl font-bold">92%</span>
-                            </div>
-                            <span className="mt-4 font-semibold">CSS/SASS</span>
-                        </div>
-                    </div> */}
                 </div>
             </section>
             <section id="experience" className="py-20 bg-gray-50">
@@ -119,9 +93,9 @@ const About: React.FC = () => {
 
             <section id="getInTouch" className="py-20 bg-white">
                 <div className="text-center">
-                    <h2 className="text-3xl font-bold mb-6">Let's Work Together</h2>
+                    <h2 className="text-3xl font-bold mb-6">Let&apos;s Work Together</h2>
                     <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-                        I'm always interested in new projects and collaborations. Feel free to reach out if you'd like to work together
+                        I&apos;m always interested in new projects and collaborations. Feel free to reach out if you&apos;d like to work together
                         or just want to say hello!
                     </p>
                     <Link

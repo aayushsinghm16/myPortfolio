@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Toaster } from 'react-hot-toast';
-import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
     return (
