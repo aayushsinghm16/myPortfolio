@@ -10,7 +10,7 @@ export const experienceData: Experience[] = [
     {
         company: "Publicis Sapient (Goodyear), Gurugram",
         role: "Senior Frontend Engineer",
-        period: "August 2025 - Present",
+        period: "August 2025 - March 2026",
         achievements: [
             "Built a complete authentication system from scratch — sign-in, registration, forgot/reset password with dual-surface rendering (flyout + full-page), Cloudflare Turnstile CAPTCHA, and Remember Me with browser autofill prevention.",
             "Architected the Order Details page handling 3 fulfilment types (In-Store, Shipping, Roll Mobile) using strategy-pattern component architecture, with rebate systems, partner savings, and mixed-cart financial calculations.",

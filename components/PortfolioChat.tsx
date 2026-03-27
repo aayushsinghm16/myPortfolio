@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -10,8 +10,38 @@ interface Message {
   timestamp: Date;
 }
 
+// Wrapper that lazy-loads reCAPTCHA only when chat is opened
 export default function PortfolioChat() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleOpen = () => {
+    setHasOpened(true);
+    setIsVisible(true);
+  };
+
+  if (!hasOpened) {
+    return (
+      <button
+        onClick={handleOpen}
+        className="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        aria-label="Open chat with Aayush's AI assistant"
+      >
+        <MessageCircle size={24} />
+      </button>
+    );
+  }
+
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}>
+      <PortfolioChatInner isVisible={isVisible} setIsVisible={setIsVisible} />
+    </GoogleReCaptchaProvider>
+  );
+}
+
+function PortfolioChatInner({ isVisible, setIsVisible }: { isVisible: boolean; setIsVisible: (v: boolean) => void }) {
+  const isOpen = isVisible;
+  const setIsOpen = setIsVisible;
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',

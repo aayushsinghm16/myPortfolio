@@ -1,18 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Modern indigo color variables (Default) */
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --primary-light: #818cf8;
-    --primary-rgb: 99, 102, 241;
-    --foreground-rgb: 24, 24, 27;
-    --background-rgb: 250, 250, 250;
+    --primary: #003fab;
+    --primary-dark: #002d7a;
+    --primary-light: #0455dd;
+    --primary-rgb: 0, 63, 171;
+    --foreground-rgb: 25, 28, 30;
+    --background-rgb: 247, 249, 251;
   }
 
   html {
@@ -20,39 +17,40 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900;
+    background-color: #f7f9fb;
+    @apply text-slate-900;
     @apply min-h-screen;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
     @apply font-semibold text-slate-900;
   }
 }
 
 @layer components {
-  /* Glass card with professional look */
   .glass-card {
-    @apply bg-white/90 backdrop-blur-sm;
+    @apply bg-white/90;
     @apply border border-slate-200;
     @apply shadow-soft hover:shadow-soft-lg rounded-xl;
-    @apply transition-all duration-300;
+    transition: box-shadow 0.3s, transform 0.3s;
   }
 
-  /* Professional gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-primary to-primary-700 bg-clip-text text-transparent;
     @apply font-bold;
   }
 
-
-  /* Professional buttons */
   .btn-primary {
     @apply px-6 py-3 font-medium text-white;
     @apply bg-gradient-professional rounded-lg;
     @apply shadow-soft hover:shadow-soft-lg;
-    @apply transform hover:scale-[1.02] transition-all duration-200;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.02);
   }
 
   .btn-primary span {
@@ -64,26 +62,32 @@
     @apply border-2 border-primary text-primary;
     @apply rounded-lg bg-white;
     @apply hover:bg-primary-50;
-    @apply shadow-sm hover:shadow-soft transition-all duration-200;
+    transition: background-color 0.2s, box-shadow 0.2s;
   }
 
   .btn-glass {
     @apply px-6 py-3 font-medium text-slate-700;
-    @apply bg-white/70 backdrop-blur-sm border border-slate-200;
+    @apply bg-white/70 border border-slate-200;
     @apply hover:bg-white/90 rounded-lg;
-    @apply shadow-sm hover:shadow-soft transition-all duration-200;
+    transition: background-color 0.2s, box-shadow 0.2s;
   }
 
-  /* Card hover effects */
   .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
   }
 
   .hover-glow {
-    @apply transition-all duration-300 hover:shadow-glow;
+    transition: box-shadow 0.3s;
   }
 
-  /* Section styling */
+  .hover-glow:hover {
+    @apply shadow-glow;
+  }
+
   .section-title {
     @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-4;
     @apply text-slate-900;
@@ -98,70 +102,70 @@
     @apply py-16 md:py-20 lg:py-24;
   }
 
-  /* Background patterns */
   .bg-dots {
-    background-image: radial-gradient(circle, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(var(--primary-rgb), 0.05) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
   .bg-grid {
-    background-image: linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(var(--primary-rgb), 0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(var(--primary-rgb), 0.03) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
-  /* Progress bar styles */
   .progress-bar {
     @apply relative h-2 bg-slate-200 rounded-full overflow-hidden;
   }
 
   .progress-bar-fill {
     @apply h-full bg-gradient-professional rounded-full;
-    @apply relative overflow-hidden;
   }
 
-  .progress-bar-fill::after {
-    content: '';
-    @apply absolute inset-0;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.3) 50%,
-      transparent 100%);
-    animation: shimmer 2s infinite;
-  }
-
-  /* Skill card styles */
   .skill-card {
     @apply glass-card p-6 hover-lift;
   }
 
-  /* Project card styles */
   .project-card {
     @apply glass-card overflow-hidden hover-lift cursor-pointer;
   }
 
-  .project-card-group {
-    @apply group;
-  }
-
   .project-card img {
-    @apply transform transition-transform duration-500;
+    transition: transform 0.5s;
   }
 
   .project-card:hover img {
-    @apply scale-105;
+    transform: scale(1.05);
   }
 
-  /* Badge styles */
   .badge {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
     @apply bg-primary-100 text-primary-700;
   }
 
+  /* Stitch design ghost border */
+  .ghost-border {
+    border: 1px solid rgba(199, 196, 216, 0.15);
+  }
+
+  /* Stitch surface backgrounds */
+  .bg-surface {
+    background-color: #f7f9fb;
+  }
+
+  .bg-surface-low {
+    background-color: #f2f4f6;
+  }
+
+  .bg-surface-high {
+    background-color: #e6e8ea;
+  }
+
+  .bg-surface-container {
+    background-color: #eceef0;
+  }
 }
 
 @layer utilities {
-  /* Text shadows for better readability */
   .text-shadow {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
@@ -170,10 +174,9 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  /* Custom scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.primary.400') theme('colors.slate.200');
+    scrollbar-color: rgba(var(--primary-rgb), 0.4) #e4e4e7;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -186,32 +189,51 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-primary-400 rounded-full;
-    @apply hover:bg-primary-500;
+    background: rgba(var(--primary-rgb), 0.4);
+    border-radius: 9999px;
   }
 }
 
-/* Typewriter effect */
-.typewriter {
-  overflow: hidden;
-  border-right: 3px solid var(--primary);
-  white-space: nowrap;
-  animation:
-    typing 3s steps(30, end),
-    blink-caret .75s step-end infinite;
+/* ====== Reduced motion: disable all animations ====== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+/* ====== Keyframes (GPU-accelerated: only transform + opacity) ====== */
+@keyframes slideInLeft {
+  from { transform: translateX(-40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: var(--primary) }
+@keyframes scaleUp {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%) }
-  100% { transform: translateX(100%) }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }

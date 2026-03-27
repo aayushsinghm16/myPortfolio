@@ -10,8 +10,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Dynamic theme colors using CSS variables
@@ -69,8 +69,8 @@ module.exports = {
         'fade-up': 'fadeUp 0.6s ease-out',
         'fade-down': 'fadeDown 0.6s ease-out',
         'slide-in-right': 'slideInRight 0.5s ease-out',
-        'slide-in-left': 'slideInLeft 0.5s ease-out',
-        'scale-up': 'scaleUp 0.3s ease-out',
+        'slide-in-left': 'slideInLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+        'scale-up': 'scaleUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'shimmer': 'shimmer 2s linear infinite',
         'float': 'float 6s ease-in-out infinite',
@@ -93,11 +93,11 @@ module.exports = {
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
         slideInLeft: {
-          '0%': { transform: 'translateX(-20px)', opacity: '0' },
+          '0%': { transform: 'translateX(-40px)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
         scaleUp: {
-          '0%': { transform: 'scale(0.98)', opacity: '0' },
+          '0%': { transform: 'scale(0.9)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
         shimmer: {

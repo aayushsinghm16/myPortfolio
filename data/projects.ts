@@ -3,7 +3,7 @@ export const projects = [
     id: 7,
     title: "Goodyear E-Commerce - Publicis Sapient",
     description: "A full-scale e-commerce platform for Goodyear built on Next.js 15 and NX monorepo architecture. Engineered the complete authenticated user experience from scratch — including authentication system, account management, order details with 3 fulfilment types, profile & address management, and a deep analytics instrumentation layer with WCAG 2.1 Level AA compliance.",
-    image: "/goodyear.png",
+    image: "/digitalWealth.png",
     tags: ["Next.js 15", "React 18", "TypeScript", "Zustand", "React Query", "GraphQL", "NX Monorepo"],
     liveDemo: "https://www.goodyear.com/",
     categories: ["web"]

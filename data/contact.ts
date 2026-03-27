@@ -11,7 +11,7 @@ export const contactInfo = [
   },
   {
     title: "Location",
-    details: "Bangalore, India",
+    details: "Delhi NCR, India",
     action: "#"
   }
 ];

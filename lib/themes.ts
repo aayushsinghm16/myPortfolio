@@ -8,11 +8,18 @@ export interface Theme {
 
 export const themes: Theme[] = [
   {
+    name: "Architect Blue",
+    primary: "#003fab",
+    primaryDark: "#002d7a",
+    primaryLight: "#0455dd",
+    description: "Stitch design system (Default)"
+  },
+  {
     name: "Indigo",
     primary: "#6366f1",
     primaryDark: "#4f46e5",
     primaryLight: "#818cf8",
-    description: "Professional and elegant (Default)"
+    description: "Professional and elegant"
   },
   {
     name: "Blue",
