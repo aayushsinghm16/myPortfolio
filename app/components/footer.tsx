@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer: React.FC = () => {
                 <div className="flex items-center gap-8">
                     <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="https://linkedin.com/in/aayushsinghm16" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn</a>
                     <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="https://github.com/aayushsinghm16" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">GitHub</a>
-                    <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="/" aria-label="Portfolio">Portfolio</a>
+                    <Link className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="/" aria-label="Portfolio">Portfolio</Link>
                     <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="mailto:aayushsinghm16@gmail.com" aria-label="Send email">Email</a>
                 </div>
             </div>

@@ -199,10 +199,11 @@ export function useStaggerReveal(count: number, staggerDelay = 100, threshold = 
     });
     observer.observe(el);
 
+    const timers = timersRef.current;
     return () => {
       observer.unobserve(el);
       callbacks.delete(el);
-      timersRef.current.forEach(clearTimeout);
+      timers.forEach(clearTimeout);
     };
   }, [count, staggerDelay, threshold]);
 
