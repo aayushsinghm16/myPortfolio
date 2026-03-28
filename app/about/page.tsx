@@ -45,6 +45,7 @@ const About = () => {
                                 alt="Aayush Singh"
                                 width={600}
                                 height={750}
+                                sizes="(max-width: 768px) 100vw, 40vw"
                                 className="relative w-full aspect-[4/5] object-cover rounded-xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
                                 priority
                             />

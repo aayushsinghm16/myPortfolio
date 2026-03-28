@@ -6,9 +6,9 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Projects by Aayush Singh - Enterprise Frontend Engineering',
         description: 'Enterprise-scale projects built with React, Next.js, Vue.js, and TypeScript.',
-        url: 'https://aayushsingh-portfolio.vercel.app/projects',
+        url: 'https://aayushsingh.co.in/projects',
     },
     alternates: {
-        canonical: 'https://aayushsingh-portfolio.vercel.app/projects',
+        canonical: 'https://aayushsingh.co.in/projects',
     },
 };

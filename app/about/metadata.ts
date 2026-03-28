@@ -6,9 +6,9 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'About Aayush Singh - Senior Frontend Engineer',
         description: 'Discover the professional journey of a Senior Frontend Engineer with 10+ years building enterprise web applications.',
-        url: 'https://aayushsingh-portfolio.vercel.app/about',
+        url: 'https://aayushsingh.co.in/about',
     },
     alternates: {
-        canonical: 'https://aayushsingh-portfolio.vercel.app/about',
+        canonical: 'https://aayushsingh.co.in/about',
     },
 };

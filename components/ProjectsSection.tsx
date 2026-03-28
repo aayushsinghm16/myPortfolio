@@ -80,6 +80,7 @@ const ProjectsSection: React.FC = () => {
                   src={project.image}
                   alt={`Screenshot of ${project.title}`}
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>

@@ -6,9 +6,9 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Technical Skills - Aayush Singh, Senior Frontend Engineer',
         description: 'Deep expertise in React, Next.js, Vue.js, TypeScript, and modern frontend architecture.',
-        url: 'https://aayushsingh-portfolio.vercel.app/skills',
+        url: 'https://aayushsingh.co.in/skills',
     },
     alternates: {
-        canonical: 'https://aayushsingh-portfolio.vercel.app/skills',
+        canonical: 'https://aayushsingh.co.in/skills',
     },
 };

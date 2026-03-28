@@ -6,9 +6,9 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Contact Aayush Singh - Available for Opportunities',
         description: 'Hire a Senior Frontend Engineer with 10+ years experience in React, Next.js, and TypeScript.',
-        url: 'https://aayushsingh-portfolio.vercel.app/contact',
+        url: 'https://aayushsingh.co.in/contact',
     },
     alternates: {
-        canonical: 'https://aayushsingh-portfolio.vercel.app/contact',
+        canonical: 'https://aayushsingh.co.in/contact',
     },
 };

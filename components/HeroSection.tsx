@@ -66,6 +66,7 @@ const HeroSection: React.FC = () => {
                                 src="/profile2.JPG"
                                 alt="Aayush Singh Portrait"
                                 fill
+                                sizes="(max-width: 768px) 100vw, 40vw"
                                 className="w-full h-full object-cover transition-all duration-700"
                                 priority
                             />

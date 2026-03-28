@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/api/', '/_next/'],
             },
         ],
-        sitemap: 'https://aayushsingh-portfolio.vercel.app/sitemap.xml',
+        sitemap: 'https://aayushsingh.co.in/sitemap.xml',
     };
 }

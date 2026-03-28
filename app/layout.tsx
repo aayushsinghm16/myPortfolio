@@ -22,7 +22,7 @@ const poppins = Poppins({
     weight: ['500', '600', '700'],
 });
 
-const SITE_URL = 'https://aayushsingh-portfolio.vercel.app';
+const SITE_URL = 'https://aayushsingh.co.in';
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
