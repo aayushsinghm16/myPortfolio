@@ -1,3 +1,13 @@
 node_modules
 .env
 .next
+tsconfig.tsbuildinfo
+.playwright-mcp/
+lighthouse-report.json
+stitch-*.html
+
+# Job search data (not part of portfolio)
+job-contacts.csv
+referral-contacts.csv
+email-templates.md
+scripts/generate-assets.mjs

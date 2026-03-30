@@ -1,13 +1,13 @@
 export const contactInfo = [
   {
     title: "Email",
-    details: "aayushsinghm16@gmail.com",
-    action: "mailto:aayushsinghm16@gmail.com"
+    details: "aayush@aayushsingh.co.in",
+    action: "mailto:aayush@aayushsingh.co.in"
   },
   {
     title: "Phone",
-    details: "+91 8792184743",
-    action: "tel:+918792184743"
+    details: "+91 9582707868",
+    action: "tel:+919582707868"
   },
   {
     title: "Location",
