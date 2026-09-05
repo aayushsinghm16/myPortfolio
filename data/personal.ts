@@ -1,16 +1,16 @@
 export const personalInfo = {
   name: "Aayush Singh",
-  title: "Senior Frontend Engineer",
+  title: "Staff Frontend Engineer · Frontend Architect",
   email: "aayushsinghm16@gmail.com",
   phone: "+91 9582707868",
   github: "https://github.com/aayushsinghm16",
   linkedin: "https://linkedin.com/in/aayushsinghm16",
-  bio: "A Senior Frontend Engineer with 10+ years of expertise in React, Next.js, Vue.js, TypeScript, and modern web architectures. Building enterprise-scale e-commerce platforms and fintech solutions that deliver exceptional user experiences with performance, accessibility, and scalability at the core.",
+  bio: "Frontend architect with 11+ years defining technical direction for large React and TypeScript platforms. I set architecture and standards across multi-brand, multi-locale systems, design the shared foundations other teams build on, and lead engineers through design review and mentoring — with domain depth in regulated fintech and enterprise e-commerce serving 1M+ users.",
   longBio: [
-    "I'm a Senior Frontend Engineer with over 10 years of experience building web applications across e-commerce, fintech, 3D visualization, and enterprise platforms. My journey in tech began during my engineering studies when I discovered how coding could transform ideas into impactful solutions.",
-    "I specialize in JavaScript/TypeScript ecosystems, architecting scalable frontends with React, Next.js 15, Vue.js, and modern state management tools like Zustand and React Query. My approach combines deep technical expertise with a strong focus on user experience, WCAG accessibility, and business objectives.",
-    "Throughout my career, I've worked at Publicis Sapient (Goodyear), SigFig, Core Value Technologies, and RBJ Technologies (Foyr) — delivering everything from ground-up authentication systems and order management platforms to 3D visualization interfaces and digital wealth dashboards.",
-    "When I'm not coding, you'll find me exploring new technologies, mentoring junior developers, contributing to open-source projects, or sharing knowledge through technical articles and community engagement."
+    "I'm a frontend architect with over 11 years in the industry, the last several spent owning architecture rather than features — setting the patterns, build systems and standards that other engineers then build on. My work concentrates in two domains where correctness is expensive to get wrong: large-scale e-commerce and regulated fintech.",
+    "At Publicis Sapient I engineered the platform infrastructure behind Goodyear's US storefront — an NX monorepo serving 5 brands across 12 locales, with CSRF protection, a GraphQL proxy that keeps service credentials server-side, and React Query SSR with HydrationBoundary. A monorepo at that shape is a cross-team code-reuse problem as much as a technical one: one component set, five brands consuming it, twelve locales to stay correct in. I joined one of five delivery pods and was asked to lead it within weeks.",
+    "At SigFig I built modules of a digital wealth platform serving over a million end users through banking partners, and re-engineered the local-development and release layer so the shared core repository and the per-partner repositories operate as one system — deploying a partner repo now triggers the core pipeline automatically, removing manual release sequencing. Shipping under banking-partner review builds a specific discipline: provable accuracy, audit traceability, and no tolerance for corrupted state in a money-handling flow.",
+    "Earlier, at Foyr, I was the main frontend engineer on a browser-based real-time 3D design platform used by 100K+ designers in 30+ countries, where I designed a bidirectional middleware between the Vue interaction layer and the Three.js engine — a property change in Vue updates the 3D canvas in real time, and engine-side changes propagate back. I've built component systems from scratch twice, and I set standards through design reviews and written technical documents, not through code review alone."
   ],
-  philosophy: "I believe in creating software that not only meets functional requirements but also delivers exceptional user experiences. My goal is to build solutions that make a real difference in people's lives through thoughtful design and robust implementation."
+  philosophy: "I set engineering standards through design review and written technical documents, not code review alone. Accessibility is a build-time guardrail rather than a remediation pass; performance is a product feature with a budget, not a post-launch concern. The best architecture is the one the team actually adopts — so I weight team familiarity and adoption cost as heavily as technical merit."
 };

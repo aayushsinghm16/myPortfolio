@@ -204,7 +204,7 @@ function getFallbackResponse(message: string): string {
   const lower = message.toLowerCase();
 
   if (lower.includes('experience') || lower.includes('work'))
-    return `Aayush has 10+ years of frontend experience. Currently a Senior Frontend Engineer at Publicis Sapient (Goodyear). Previously at SigFig, Core Value Technologies, RBJ Technologies (Foyr), Grarri, and IIT Delhi.`;
+    return `Aayush has 11+ years of frontend experience. Currently a Staff Frontend Engineer at Publicis Sapient (Goodyear). Previously at SigFig, Core Value Technologies, RBJ Technologies (Foyr), Grarri, and IIT Delhi.`;
   if (lower.includes('skill') || lower.includes('tech'))
     return `Aayush specializes in React (98%), Next.js (95%), Vue.js (90%), TypeScript (95%), plus Node.js, GraphQL, Zustand, React Query, and modern dev tools.`;
   if (lower.includes('project'))
@@ -216,7 +216,7 @@ function getFallbackResponse(message: string): string {
   if (lower.match(/^(hi|hello|hey)/))
     return `Hello! I'm Aayush's AI assistant. Ask me about his experience, skills, projects, education, or how to contact him!`;
 
-  return `I can tell you about Aayush's 10+ years of frontend experience, technical skills (React, Next.js, Vue, TypeScript), projects, education, or contact info. What would you like to know?`;
+  return `I can tell you about Aayush's 11+ years of frontend experience, technical skills (React, Next.js, Vue, TypeScript), projects, education, or contact info. What would you like to know?`;
 }
 
 // ====== Main Handler ======

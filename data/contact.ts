@@ -1,8 +1,8 @@
 export const contactInfo = [
   {
     title: "Email",
-    details: "aayush@aayushsingh.co.in",
-    action: "mailto:aayush@aayushsingh.co.in"
+    details: "aayushsinghm16@gmail.com",
+    action: "mailto:aayushsinghm16@gmail.com"
   },
   {
     title: "Phone",
@@ -12,7 +12,7 @@ export const contactInfo = [
   {
     title: "Location",
     details: "Delhi NCR, India",
-    action: "#"
+    action: "https://www.google.com/maps/place/Delhi+NCR"
   }
 ];
 
@@ -26,10 +26,5 @@ export const socialLinks = [
     name: "LinkedIn",
     url: "https://linkedin.com/in/aayushsinghm16",
     color: "hover:text-blue-600"
-  },
-  {
-    name: "Twitter",
-    url: "https://twitter.com/aayushsinghm16",
-    color: "hover:text-blue-400"
   }
 ];
