@@ -30,7 +30,7 @@
   --gray-200:  #D8DEE6;
   --gray-300:  #AEB8C4;
   --gray-400:  #8B97A6;
-  --gray-500:  #6B7686;
+  --gray-500:  #616C7C;  /* darkened: muted text needs 4.5 on --color-ground */
   --gray-600:  #556170;
   --gray-700:  #3A4553;
   --gray-800:  #222C38;
@@ -42,7 +42,7 @@
   /* Safety orange. Spent deliberately — one thing per section. */
   --accent-400: #FF7A45;
   --accent-500: #E2560F;
-  --accent-600: #D9480F;
+  --accent-600: #C2410C;  /* 5.18:1 both directions vs white (was #D9480F, 4.30) */
   --accent-700: #B23A0B;
   --accent-wash-light: #FDEDE4;
 
@@ -96,7 +96,7 @@
   --primary:       var(--color-accent);
   --primary-dark:  var(--accent-700);
   --primary-light: var(--accent-500);
-  --primary-rgb:   217, 72, 15;
+  --primary-rgb:   194, 65, 12;
 
   /* ─── 3. SCALES ─────────────────────────────────────────────────────
      Density 6/10 per the design system: standard, not dashboard-dense. */
