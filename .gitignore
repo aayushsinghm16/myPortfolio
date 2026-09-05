@@ -11,3 +11,7 @@ job-contacts.csv
 referral-contacts.csv
 email-templates.md
 scripts/generate-assets.mjs
+
+# Outreach data — third-party HR contacts, must not be public
+outreach-master.csv
+scripts/add-companies*.js
