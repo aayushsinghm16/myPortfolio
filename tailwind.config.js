@@ -1,134 +1,126 @@
 /** @type {import('tailwindcss').Config} */
+
+/**
+ * Tailwind reads the SEMANTIC layer of the token system only (app/tokens.css).
+ * Nothing here hardcodes a colour value — every entry points at a CSS variable,
+ * so dark mode, the ThemeSelector, and any future re-theme all work without
+ * touching this file or any component.
+ *
+ * Components should use role names (`bg-panel`, `text-ink`, `border-rule`)
+ * rather than palette names (`bg-white`, `text-slate-900`).
+ */
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './app/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+    './data/**/*.{js,ts}',
   ],
   darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        heading: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
+        // IBM Plex Sans: Swiss-influenced, engineering-grade. One family for
+        // both headings and body — Swiss discipline, weight does the work.
+        sans: ['var(--font-plex)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-plex)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
+
       colors: {
-        // Dynamic theme colors using CSS variables
+        /* surfaces */
+        ground: 'var(--color-ground)',
+        panel: {
+          DEFAULT: 'var(--color-panel)',
+          alt: 'var(--color-panel-alt)',
+          sunken: 'var(--color-panel-sunken)',
+        },
+        /* lines */
+        rule: {
+          DEFAULT: 'var(--color-rule)',
+          strong: 'var(--color-rule-strong)',
+        },
+        /* text */
+        ink: 'var(--color-ink)',
+        body: 'var(--color-body)',
+        muted: 'var(--color-muted)',
+        /* accent */
+        accent: {
+          DEFAULT: 'var(--color-accent)',
+          hover: 'var(--color-accent-hover)',
+          ink: 'var(--color-accent-ink)',
+          wash: 'var(--color-accent-wash)',
+        },
+        /* status — deliberately separate from accent */
+        positive: 'var(--color-positive)',
+        critical: 'var(--color-critical)',
+
+        /* Back-compat alias so components still on `primary` keep rendering
+           while they migrate to `accent`. Remove once nothing references it. */
         primary: {
           DEFAULT: 'var(--primary)',
-          50: 'rgba(var(--primary-rgb), 0.05)',
-          100: 'rgba(var(--primary-rgb), 0.1)',
-          200: 'rgba(var(--primary-rgb), 0.2)',
-          300: 'rgba(var(--primary-rgb), 0.3)',
-          400: 'var(--primary-light)',
-          500: 'var(--primary)',
-          600: 'var(--primary-dark)',
-          700: 'rgba(var(--primary-rgb), 0.7)',
-          800: 'rgba(var(--primary-rgb), 0.8)',
-          900: 'rgba(var(--primary-rgb), 0.9)',
+          dark: 'var(--primary-dark)',
+          light: 'var(--primary-light)',
         },
-        // Sophisticated Charcoal/Slate for text and backgrounds
-        slate: {
-          50: '#fafafa',
-          100: '#f4f4f5',
-          200: '#e4e4e7',
-          300: '#d4d4d8',
-          400: '#a1a1aa',
-          500: '#71717a',
-          600: '#52525b',
-          700: '#3f3f46',
-          800: '#27272a',
-          900: '#18181b',
-          950: '#09090b',
-        },
-        // Glass morphism backgrounds
-        glass: {
-          light: 'rgba(255, 255, 255, 0.1)',
-          dark: 'rgba(0, 0, 0, 0.1)',
-        },
-        // Dynamic badge colors
-        'primary-badge': {
-          light: 'rgba(var(--primary-rgb), 0.1)',
-          dark: 'rgba(var(--primary-rgb), 0.2)',
-        }
       },
-      backgroundImage: {
-        // Professional gradients with dynamic theme
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-professional': 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
-        'gradient-subtle': 'linear-gradient(135deg, rgba(var(--primary-rgb), 0.05) 0%, rgba(var(--primary-rgb), 0.1) 100%)',
-        'gradient-dark': 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
-        // Subtle patterns
-        'dots-pattern': 'radial-gradient(circle, rgba(var(--primary-rgb), 0.05) 1px, transparent 1px)',
-        'grid-pattern': 'linear-gradient(rgba(var(--primary-rgb), 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--primary-rgb), 0.03) 1px, transparent 1px)',
+
+      borderColor: { DEFAULT: 'var(--color-rule)' },
+      ringColor: { DEFAULT: 'var(--color-focus)' },
+
+      fontSize: {
+        '2xs': ['var(--text-2xs)', { lineHeight: '1.4' }],
+        xs:    ['var(--text-xs)',  { lineHeight: '1.45' }],
+        sm:    ['var(--text-sm)',  { lineHeight: '1.55' }],
+        base:  ['var(--text-base)',{ lineHeight: '1.6' }],
+        md:    ['var(--text-md)',  { lineHeight: '1.55' }],
+        lg:    ['var(--text-lg)',  { lineHeight: '1.35' }],
+        xl:    ['var(--text-xl)',  { lineHeight: '1.25' }],
+        '2xl': ['var(--text-2xl)', { lineHeight: '1.12' }],
+        '3xl': ['var(--text-3xl)', { lineHeight: '1.05' }],
+        '4xl': ['var(--text-4xl)', { lineHeight: '1' }],
       },
+
+      spacing: {
+        1: 'var(--space-1)',  2: 'var(--space-2)',  3: 'var(--space-3)',
+        4: 'var(--space-4)',  5: 'var(--space-5)',  6: 'var(--space-6)',
+        7: 'var(--space-7)',  8: 'var(--space-8)',  9: 'var(--space-9)',
+        10:'var(--space-10)',
+      },
+
+      borderRadius: {
+        none: 'var(--radius-none)',
+        sm:   'var(--radius-sm)',
+        DEFAULT: 'var(--radius-md)',
+        md:   'var(--radius-md)',
+        lg:   'var(--radius-lg)',
+        full: 'var(--radius-full)',
+      },
+
+      transitionDuration: {
+        instant: 'var(--dur-instant)',
+        fast:    'var(--dur-fast)',
+        base:    'var(--dur-base)',
+      },
+      transitionTimingFunction: { out: 'var(--ease-out)' },
+
+      // Swiss direction: separation comes from rules, not elevation.
+      // A single soft shadow is kept for the one case that needs lift.
+      boxShadow: {
+        none: 'none',
+        soft: '0 1px 2px rgba(11,15,20,.04), 0 8px 24px -12px rgba(11,15,20,.10)',
+      },
+
       animation: {
-        // Professional subtle animations
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'fade-up': 'fadeUp 0.6s ease-out',
-        'fade-down': 'fadeDown 0.6s ease-out',
-        'slide-in-right': 'slideInRight 0.5s ease-out',
-        'slide-in-left': 'slideInLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-        'scale-up': 'scaleUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'shimmer': 'shimmer 2s linear infinite',
-        'float': 'float 6s ease-in-out infinite',
+        'fade-in': 'fadeIn var(--dur-base) var(--ease-out)',
+        'fade-up': 'fadeUp var(--dur-base) var(--ease-out)',
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
+        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
         fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        fadeDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        slideInRight: {
-          '0%': { transform: 'translateX(20px)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
-        },
-        slideInLeft: {
-          '0%': { transform: 'translateX(-40px)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
-        },
-        scaleUp: {
-          '0%': { transform: 'scale(0.9)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-        pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.7' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-      },
-      boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'soft-lg': '0 10px 40px -15px rgba(0, 0, 0, 0.1)',
-        'soft-xl': '0 20px 50px -15px rgba(0, 0, 0, 0.15)',
-        'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'glow': '0 0 20px rgba(14, 165, 233, 0.15)',
-        'glow-lg': '0 0 40px rgba(14, 165, 233, 0.2)',
-      },
-      backdropBlur: {
-        xs: '2px',
-        sm: '4px',
-        md: '8px',
-        lg: '12px',
-        xl: '16px',
       },
     },
   },
   plugins: [],
-}
+};

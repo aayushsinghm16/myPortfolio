@@ -1,0 +1,215 @@
+/* ============================================================================
+ DESIGN TOKENS
+ ----------------------------------------------------------------------------
+ Three layers. Only ever edit the layer that matches what you want to change:
+
+   1. PRIMITIVES  raw values (a grey ramp, an accent ramp). Never referenced
+                  directly by a component. Change these to reshape the whole
+                  palette at once.
+   2. SEMANTIC    roles ("the page ground", "a hairline rule"). This is the
+                  only layer components and Tailwind read. Change these to
+                  re-map meaning without touching any component.
+   3. SCALES      spacing, type, radius, motion. Non-colour system values.
+
+ Dark mode overrides layer 2 ONLY. That is what makes the system cheap to
+ maintain: one ramp change, or one role re-map, propagates everywhere.
+
+ To re-theme the site: edit the primitives in §1 and the accent mapping in §2.
+ Nothing else should need to change.
+ ========================================================================== */
+
+:root {
+  /* ─── 1. PRIMITIVES ─────────────────────────────────────────────────
+     Industrial grey with a slight cool bias — a pure neutral reads as
+     unconsidered. Values are hand-picked, not generated, so each step is
+     usable as a real surface or text colour. */
+  --gray-0:    #FFFFFF;
+  --gray-25:   #F7F8FA;
+  --gray-50:   #EEF1F5;
+  --gray-100:  #E4E8EE;
+  --gray-200:  #D8DEE6;
+  --gray-300:  #AEB8C4;
+  --gray-400:  #8B97A6;
+  --gray-500:  #6B7686;
+  --gray-600:  #556170;
+  --gray-700:  #3A4553;
+  --gray-800:  #222C38;
+  --gray-850:  #161F2A;
+  --gray-900:  #111821;
+  --gray-950:  #0B0F14;
+  --gray-1000: #05080B;
+
+  /* Safety orange. Spent deliberately — one thing per section. */
+  --accent-400: #FF7A45;
+  --accent-500: #E2560F;
+  --accent-600: #D9480F;
+  --accent-700: #B23A0B;
+  --accent-wash-light: #FDEDE4;
+
+  /* Status. Kept separate from the accent so semantic colour never competes
+     with brand colour. */
+  --positive-500: #0F7B54;
+  --positive-400: #3ECF9B;
+  --critical-500: #B42318;
+  --critical-400: #F97066;
+
+  /* ─── 2. SEMANTIC — LIGHT ───────────────────────────────────────────
+     The only layer components read. Re-map these to re-theme. */
+
+  /* surfaces */
+  --color-ground:       var(--gray-25);
+  --color-panel:        var(--gray-0);
+  --color-panel-alt:    var(--gray-50);
+  --color-panel-sunken: var(--gray-100);
+
+  /* lines */
+  --color-rule:         var(--gray-200);
+  --color-rule-strong:  var(--gray-300);
+
+  /* text — three levels, all AA against --color-ground and --color-panel */
+  --color-ink:          var(--gray-950);   /* headings, key figures */
+  --color-body:         var(--gray-700);   /* running text */
+  --color-muted:        var(--gray-500);   /* labels, captions, metadata */
+
+  /* accent */
+  --color-accent:       var(--accent-600);
+  --color-accent-hover: var(--accent-700);
+  --color-accent-ink:   var(--gray-0);        /* text ON the accent */
+  --color-accent-wash:  var(--accent-wash-light);
+
+  /* status */
+  --color-positive:     var(--positive-500);
+  --color-critical:     var(--critical-500);
+
+  /* interaction */
+  --color-focus:        var(--accent-600);
+  --color-selection:    var(--accent-wash-light);
+
+  /* ambient network background layer */
+  --net-line:  var(--gray-400);
+  --net-node:  var(--gray-600);
+  --net-op:    0.10;
+
+  /* Back-compat: the ThemeSelector writes --primary directly, and older
+     components still reference it. Aliasing keeps both working while the
+     migration to semantic tokens completes. */
+  --primary:       var(--color-accent);
+  --primary-dark:  var(--accent-700);
+  --primary-light: var(--accent-500);
+  --primary-rgb:   217, 72, 15;
+
+  /* ─── 3. SCALES ─────────────────────────────────────────────────────
+     Density 6/10 per the design system: standard, not dashboard-dense. */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  22px;
+  --space-6:  28px;
+  --space-7:  36px;
+  --space-8:  48px;
+  --space-9:  64px;
+  --space-10: 88px;
+
+  /* Type scale. Body sits at 15px; the ratio widens as it climbs so display
+     sizes have real presence without a separate scale. */
+  --text-2xs: 9.5px;
+  --text-xs:  10.5px;
+  --text-sm:  12.5px;
+  --text-base:15px;
+  --text-md:  17px;
+  --text-lg:  20px;
+  --text-xl:  26px;
+  --text-2xl: 34px;
+  --text-3xl: 46px;
+  --text-4xl: 62px;
+
+  /* Swiss discipline: near-square. Radius is not doing expressive work here,
+     so it stays small and consistent. */
+  --radius-none: 0px;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-full: 9999px;
+
+  --rule-width: 1px;
+
+  /* Motion 3/10 — subtle. Durations are role-based, not one value copied
+     everywhere: feedback must feel instant, reveals can afford more. */
+  --dur-instant: 120ms;   /* colour/border feedback */
+  --dur-fast:    200ms;   /* hover, small state change */
+  --dur-base:    320ms;   /* section reveal */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+
+  --ring-width:  2px;
+  --ring-offset: 2px;
+}
+
+/* ─── SEMANTIC — DARK ───────────────────────────────────────────────────
+   Only roles are re-mapped. No component knows this block exists.
+   Note the accent lightens: --accent-600 is legible on white but muddy on
+   near-black, so dark takes --accent-400 and flips --color-accent-ink. */
+.dark {
+  --color-ground:       var(--gray-950);
+  --color-panel:        var(--gray-900);
+  --color-panel-alt:    var(--gray-850);
+  --color-panel-sunken: var(--gray-800);
+
+  --color-rule:         #22303F;
+  --color-rule-strong:  #3A4C5F;
+
+  --color-ink:          #EDF1F6;
+  --color-body:         #AFBBC9;
+  --color-muted:        #8492A2;
+
+  --color-accent:       var(--accent-400);
+  --color-accent-hover: #FF9366;
+  --color-accent-ink:   #1A0B03;
+  --color-accent-wash:  rgba(255, 122, 69, 0.13);
+
+  --color-positive:     var(--positive-400);
+  --color-critical:     var(--critical-400);
+
+  --color-focus:        var(--accent-400);
+  --color-selection:    rgba(255, 122, 69, 0.22);
+
+  --net-line: #7FA6C9;
+  --net-node: #9CC2E0;
+  --net-op:   0.13;
+
+  --primary:       var(--color-accent);
+  --primary-dark:  var(--accent-500);
+  --primary-light: #FF9366;
+  --primary-rgb:   255, 122, 69;
+}
+
+/* Honour the OS preference when the user has not chosen explicitly.
+   `.dark` (set by ThemeProvider) wins over this because it is applied to the
+   same element with higher specificity via the :not() guard below. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --color-ground:       var(--gray-950);
+    --color-panel:        var(--gray-900);
+    --color-panel-alt:    var(--gray-850);
+    --color-panel-sunken: var(--gray-800);
+    --color-rule:         #22303F;
+    --color-rule-strong:  #3A4C5F;
+    --color-ink:          #EDF1F6;
+    --color-body:         #AFBBC9;
+    --color-muted:        #8492A2;
+    --color-accent:       var(--accent-400);
+    --color-accent-hover: #FF9366;
+    --color-accent-ink:   #1A0B03;
+    --color-accent-wash:  rgba(255, 122, 69, 0.13);
+    --color-positive:     var(--positive-400);
+    --color-critical:     var(--critical-400);
+    --color-focus:        var(--accent-400);
+    --net-line: #7FA6C9;
+    --net-node: #9CC2E0;
+    --net-op:   0.13;
+    --primary:       var(--color-accent);
+    --primary-dark:  var(--accent-500);
+    --primary-light: #FF9366;
+    --primary-rgb:   255, 122, 69;
+  }
+}

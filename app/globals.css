@@ -1,239 +1,229 @@
+@import './tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --primary: #003fab;
-    --primary-dark: #002d7a;
-    --primary-light: #0455dd;
-    --primary-rgb: 0, 63, 171;
-    --foreground-rgb: 25, 28, 30;
-    --background-rgb: 247, 249, 251;
-  }
 
+/* ============================================================================
+   BASE
+   Everything below reads SEMANTIC tokens only. If a raw hex appears in this
+   file outside tokens.css, that is a bug — add a token instead.
+   ========================================================================== */
+@layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: light dark;
   }
 
   body {
-    background-color: #f7f9fb;
-    @apply text-slate-900;
-    @apply min-h-screen;
-    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    background-color: var(--color-ground);
+    color: var(--color-body);
+    font-family: var(--font-plex), system-ui, -apple-system, sans-serif;
+    font-size: var(--text-base);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
-    @apply font-semibold text-slate-900;
+    font-family: var(--font-plex), system-ui, sans-serif;
+    color: var(--color-ink);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-selection);
+    color: var(--color-ink);
+  }
+
+  /* Single global focus style. Previously there was none anywhere in the
+     project and several components cleared the UA outline without replacing
+     it — :where() keeps specificity at 0 so any component can still override. */
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: var(--ring-width) solid var(--color-focus);
+    outline-offset: var(--ring-offset);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Reduced motion. Delays are zeroed too — durations alone left staggered
+     reveals waiting out their transition-delay before appearing. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+    html { scroll-behavior: auto; }
   }
 }
 
+/* ============================================================================
+   COMPONENTS
+   The Swiss/engineering-drawing vocabulary: opaque panels, hairline rules,
+   monospace metadata. No shadows, no gradients — separation comes from rules.
+   ========================================================================== */
 @layer components {
-  .glass-card {
-    @apply bg-white/90;
-    @apply border border-slate-200;
-    @apply shadow-soft hover:shadow-soft-lg rounded-xl;
-    transition: box-shadow 0.3s, transform 0.3s;
+
+  /* ── Surfaces ───────────────────────────────────────────────── */
+  .panel {
+    background: var(--color-panel);
+    border: var(--rule-width) solid var(--color-rule);
+    border-radius: var(--radius-none);
+  }
+  .panel-strong { border-color: var(--color-rule-strong); }
+
+  /* ── Metadata label: uppercase mono, used for every eyebrow and field key ── */
+  .label-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: var(--text-xs);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary to-primary-700 bg-clip-text text-transparent;
-    @apply font-bold;
+  /* ── Section header: spec-sheet marker + title ──────────────── */
+  .section-head {
+    display: grid;
+    grid-template-columns: 104px 1fr;
+    gap: var(--space-5);
+    align-items: baseline;
+    padding-bottom: var(--space-3);
+    border-bottom: var(--rule-width) solid var(--color-rule-strong);
   }
-
-  .btn-primary {
-    @apply px-6 py-3 font-medium text-white;
-    @apply bg-gradient-professional rounded-lg;
-    @apply shadow-soft hover:shadow-soft-lg;
-    transition: box-shadow 0.2s, transform 0.2s;
+  @media (max-width: 640px) {
+    .section-head { grid-template-columns: 1fr; gap: var(--space-1); }
   }
-
-  .btn-primary:hover {
-    transform: scale(1.02);
-  }
-
-  .btn-primary span {
-    @apply relative z-10;
-  }
-
-  .btn-secondary {
-    @apply px-6 py-3 font-medium;
-    @apply border-2 border-primary text-primary;
-    @apply rounded-lg bg-white;
-    @apply hover:bg-primary-50;
-    transition: background-color 0.2s, box-shadow 0.2s;
-  }
-
-  .btn-glass {
-    @apply px-6 py-3 font-medium text-slate-700;
-    @apply bg-white/70 border border-slate-200;
-    @apply hover:bg-white/90 rounded-lg;
-    transition: background-color 0.2s, box-shadow 0.2s;
-  }
-
-  .hover-lift {
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-4px);
-  }
-
-  .hover-glow {
-    transition: box-shadow 0.3s;
-  }
-
-  .hover-glow:hover {
-    @apply shadow-glow;
-  }
-
   .section-title {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-4;
-    @apply text-slate-900;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-ink);
   }
 
-  .section-subtitle {
-    @apply text-lg md:text-xl text-slate-600;
-    @apply max-w-3xl mx-auto;
+  /* ── Buttons ────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: var(--space-3) var(--space-5);
+    border: var(--rule-width) solid var(--color-accent);
+    border-radius: var(--radius-none);
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    cursor: pointer;
+    transition: background-color var(--dur-fast), border-color var(--dur-fast);
+  }
+  .btn:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-rule-strong);
+  }
+  .btn-ghost:hover { background: var(--color-panel-alt); border-color: var(--color-rule-strong); }
+
+  /* ── Form field ─────────────────────────────────────────────── */
+  .field {
+    width: 100%;
+    background: var(--color-panel);
+    border: var(--rule-width) solid var(--color-rule-strong);
+    border-radius: var(--radius-none);
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-ink);
+    font-family: var(--font-plex), system-ui, sans-serif;
+    font-size: var(--text-base);
+    transition: border-color var(--dur-fast);
+  }
+  .field::placeholder { color: var(--color-muted); }
+  .field:hover { border-color: var(--color-muted); }
+  .field-invalid { border-color: var(--color-critical); }
+
+  /* ── Data chip (tech tags, depth bands) ─────────────────────── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: var(--text-sm);
+    color: var(--color-body);
+    border: var(--rule-width) solid var(--color-rule);
+    padding: var(--space-1) var(--space-2);
+  }
+  .chip-accent { color: var(--color-accent); border-color: var(--color-accent); }
+
+  /* ── Figure: monospace tabular number ───────────────────────── */
+  .figure-value {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-ink);
+    line-height: 1.05;
   }
 
-  .section-padding {
-    @apply py-16 md:py-20 lg:py-24;
+  /* ── Reveal: ships VISIBLE, then animates. The previous implementation
+        shipped opacity:0 and depended on JS to reveal it, which left 49
+        elements invisible without hydration. ──────────────────── */
+  .reveal { opacity: 1; transform: none; }
+  .js .reveal-pending {
+    opacity: 0;
+    transform: translateY(12px);
   }
-
-  .bg-dots {
-    background-image: radial-gradient(circle, rgba(var(--primary-rgb), 0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .bg-grid {
-    background-image: linear-gradient(rgba(var(--primary-rgb), 0.03) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(var(--primary-rgb), 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .progress-bar {
-    @apply relative h-2 bg-slate-200 rounded-full overflow-hidden;
-  }
-
-  .progress-bar-fill {
-    @apply h-full bg-gradient-professional rounded-full;
-  }
-
-  .skill-card {
-    @apply glass-card p-6 hover-lift;
-  }
-
-  .project-card {
-    @apply glass-card overflow-hidden hover-lift cursor-pointer;
-  }
-
-  .project-card img {
-    transition: transform 0.5s;
-  }
-
-  .project-card:hover img {
-    transform: scale(1.05);
-  }
-
-  .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
-    @apply bg-primary-100 text-primary-700;
-  }
-
-  /* Stitch design ghost border */
-  .ghost-border {
-    border: 1px solid rgba(199, 196, 216, 0.15);
-  }
-
-  /* Stitch surface backgrounds */
-  .bg-surface {
-    background-color: #f7f9fb;
-  }
-
-  .bg-surface-low {
-    background-color: #f2f4f6;
-  }
-
-  .bg-surface-high {
-    background-color: #e6e8ea;
-  }
-
-  .bg-surface-container {
-    background-color: #eceef0;
+  .js .reveal-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--dur-base) var(--ease-out),
+                transform var(--dur-base) var(--ease-out);
   }
 }
 
+/* ============================================================================
+   UTILITIES
+   ========================================================================== */
 @layer utilities {
-  .text-shadow {
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  .font-mono-token { font-family: var(--font-mono), ui-monospace, monospace; }
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Ambient network layer — fixed so it never repaints during scroll. */
+  .netbg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: var(--net-op);
+  }
+  .netbg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 62% 55% at 50% 42%, var(--color-ground) 0%, transparent 78%);
   }
 
-  .text-shadow-lg {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(var(--primary-rgb), 0.4) #e4e4e7;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    @apply bg-slate-100 rounded-full;
-  }
-
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: rgba(var(--primary-rgb), 0.4);
-    border-radius: 9999px;
+    background: var(--color-rule-strong);
+    border-radius: var(--radius-full);
   }
 }
 
-/* ====== Reduced motion: disable all animations ====== */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* ============================================================================
+   THIRD-PARTY OVERRIDES
+   Outside @layer on purpose: Tailwind purges layer rules whose selectors never
+   appear in source, and this element is injected at runtime by Google.
+   ========================================================================== */
 
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* ====== Keyframes (GPU-accelerated: only transform + opacity) ====== */
-@keyframes slideInLeft {
-  from { transform: translateX(-40px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes scaleUp {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes fadeUp {
-  from { transform: translateY(10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
+/* The floating reCAPTCHA badge collided with the chat launcher. Google permits
+   hiding it provided the attribution is shown instead — ContactForm carries the
+   full 'protected by reCAPTCHA / Privacy Policy / Terms of Service' text. */
+.grecaptcha-badge { visibility: hidden !important; }
