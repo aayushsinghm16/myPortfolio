@@ -24,7 +24,7 @@ export default function PortfolioChat() {
     return (
       <button
         onClick={handleOpen}
-        className="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        className="fixed bottom-6 right-6 z-50 bg-accent hover:bg-accent-hover text-accent-ink p-4  shadow-soft transition-colors duration-fast "
         aria-label="Open chat with Aayush's AI assistant"
       >
         <MessageCircle size={24} />
@@ -127,7 +127,7 @@ function PortfolioChatInner({ isVisible, setIsVisible }: { isVisible: boolean; s
       {/* Floating Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110"
+        className="fixed bottom-6 right-6 z-50 bg-accent hover:bg-accent-hover text-accent-ink  p-4 shadow-soft transition-colors duration-fast "
         aria-label="Open chat"
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
@@ -135,11 +135,11 @@ function PortfolioChatInner({ isVisible, setIsVisible }: { isVisible: boolean; s
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-96 h-[600px] bg-white dark:bg-gray-800 rounded-lg shadow-2xl flex flex-col border border-gray-200 dark:border-gray-700">
+        <div className="fixed bottom-24 right-6 z-50 w-96 h-[600px] bg-panel  shadow-soft flex flex-col border border-rule">
           {/* Header */}
-          <div className="bg-blue-600 text-white p-4 rounded-t-lg">
+          <div className="bg-accent text-accent-ink p-4 ">
             <h3 className="font-semibold text-lg">Chat with Aayush&apos;s AI</h3>
-            <p className="text-xs text-blue-100">Ask about experience, skills & projects</p>
+            <p className="text-xs text-accent-ink">Ask about experience, skills & projects</p>
           </div>
 
           {/* Messages */}
@@ -150,10 +150,10 @@ function PortfolioChatInner({ isVisible, setIsVisible }: { isVisible: boolean; s
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
+                  className={`max-w-[80%]  p-3 ${
                     message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                      ? 'bg-accent text-accent-ink'
+                      : 'bg-panel-alt text-gray-900 dark:text-gray-100'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
@@ -165,7 +165,7 @@ function PortfolioChatInner({ isVisible, setIsVisible }: { isVisible: boolean; s
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="bg-panel-alt  p-3">
                   <Loader2 className="animate-spin" size={20} />
                 </div>
               </div>
@@ -174,25 +174,25 @@ function PortfolioChatInner({ isVisible, setIsVisible }: { isVisible: boolean; s
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700">
+          <form onSubmit={handleSubmit} className="p-4 border-t border-rule">
             <div className="flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-4 py-2 border border-rule-strong   bg-panel dark:text-accent-ink"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-accent hover:bg-accent-hover text-accent-ink p-2  disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={20} />
               </button>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-xs text-muted mt-2">
               Protected by reCAPTCHA
             </p>
           </form>

@@ -1,25 +1,30 @@
 import React from 'react';
-import { Inter, Poppins } from 'next/font/google';
+import { IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '../components/Navbar';
 import Footer from './components/footer';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '../lib/ThemeContext';
-import PortfolioChat from '../components/PortfolioChat';
+import DeferredWidgets from '../components/DeferredWidgets';
+import NetworkBackground from '../components/NetworkBackground';
 import type { Metadata } from 'next';
 
-const inter = Inter({
+// IBM Plex Sans — Swiss-influenced, engineering-grade. Static-only on Google
+// Fonts, so weights are explicit. 300 is unused today but kept for the light
+// display treatment in the title block.
+const plex = IBM_Plex_Sans({
     subsets: ['latin'],
     display: 'swap',
-    variable: '--font-inter',
-    weight: ['400', '500', '600', '700'],
+    variable: '--font-plex',
+    weight: ['300', '400', '500', '600', '700'],
 });
 
-const poppins = Poppins({
+// JetBrains Mono ships a variable font: omitting `weight` pulls one file
+// covering the whole range instead of three static cuts.
+const mono = JetBrains_Mono({
     subsets: ['latin'],
     display: 'swap',
-    variable: '--font-poppins',
-    weight: ['500', '600', '700'],
+    variable: '--font-mono',
 });
 
 const SITE_URL = 'https://aayushsingh.co.in';
@@ -27,17 +32,19 @@ const SITE_URL = 'https://aayushsingh.co.in';
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
     title: {
-        default: 'Aayush Singh - Senior Frontend Engineer | React, Next.js, TypeScript',
+        default: 'Aayush Singh - Staff Frontend Engineer & Frontend Architect | React, Next.js, TypeScript',
         template: '%s | Aayush Singh Portfolio',
     },
-    description: 'Senior Frontend Engineer with 10+ years of expertise in React, Next.js, Vue.js, TypeScript. Building enterprise e-commerce platforms at Publicis Sapient (Goodyear), fintech dashboards at SigFig, and 3D visualization at Foyr.',
+    description: 'Frontend architect with 11+ years defining technical direction for large React and TypeScript platforms — NX monorepos across 5 brands and 12 locales, design systems, micro-frontends and SSR. Regulated fintech and enterprise e-commerce serving 1M+ users.',
     keywords: [
-        'Aayush Singh', 'Senior Frontend Engineer', 'React Developer', 'Next.js Developer',
-        'TypeScript', 'Vue.js', 'Frontend Architect', 'Web Developer India',
-        'React.js Expert', 'Full Stack Developer', 'JavaScript Developer',
-        'E-commerce Developer', 'Fintech Developer', 'UI Engineer',
-        'Publicis Sapient', 'Goodyear', 'SigFig', 'Portfolio',
-        'Delhi NCR Developer', 'Hire React Developer',
+        'Aayush Singh', 'Staff Frontend Engineer', 'Principal Frontend Engineer',
+        'Frontend Architect', 'React Architect', 'Frontend Platform Engineer',
+        'React Developer', 'Next.js Developer', 'TypeScript', 'Vue.js',
+        'Design Systems', 'Micro-frontends', 'NX Monorepo', 'SSR', 'GraphQL',
+        'Frontend System Design', 'Web Accessibility WCAG', 'Performance Optimization',
+        'E-commerce Developer', 'Fintech Developer',
+        'Publicis Sapient', 'Goodyear', 'SigFig', 'Foyr',
+        'Delhi NCR Developer', 'Remote Frontend Engineer', 'Hire Staff Frontend Engineer',
     ],
     authors: [{ name: 'Aayush Singh', url: SITE_URL }],
     creator: 'Aayush Singh',
@@ -58,22 +65,21 @@ export const metadata: Metadata = {
         locale: 'en_US',
         url: SITE_URL,
         siteName: 'Aayush Singh Portfolio',
-        title: 'Aayush Singh - Senior Frontend Engineer | 10+ Years Experience',
-        description: 'Senior Frontend Engineer specializing in React, Next.js, TypeScript. 10+ years building enterprise e-commerce, fintech, and 3D visualization platforms.',
+        title: 'Aayush Singh - Staff Frontend Engineer | 11+ Years Experience',
+        description: 'Staff Frontend Engineer specializing in React, Next.js, TypeScript. 11+ years building enterprise e-commerce, fintech, and 3D visualization platforms.',
         images: [
             {
                 url: '/og-image.jpg',
                 width: 1200,
                 height: 630,
-                alt: 'Aayush Singh - Senior Frontend Engineer Portfolio',
+                alt: 'Aayush Singh - Staff Frontend Engineer Portfolio',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Aayush Singh - Senior Frontend Engineer',
-        description: 'Senior Frontend Engineer with 10+ years expertise in React, Next.js, TypeScript. Building enterprise-scale platforms.',
-        creator: '@aayushsinghm16',
+        title: 'Aayush Singh - Staff Frontend Engineer',
+        description: 'Staff Frontend Engineer with 11+ years expertise in React, Next.js, TypeScript. Building enterprise-scale platforms.',
         images: ['/og-image.jpg'],
     },
     alternates: {
@@ -89,7 +95,7 @@ const jsonLd = {
     name: 'Aayush Singh',
     url: SITE_URL,
     image: `${SITE_URL}/profile2.JPG`,
-    jobTitle: 'Senior Frontend Engineer',
+    jobTitle: 'Staff Frontend Engineer',
     worksFor: {
         '@type': 'Organization',
         name: 'Publicis Sapient',
@@ -107,14 +113,13 @@ const jsonLd = {
     sameAs: [
         'https://github.com/aayushsinghm16',
         'https://linkedin.com/in/aayushsinghm16',
-        'https://twitter.com/aayushsinghm16',
     ],
     knowsAbout: [
         'React.js', 'Next.js', 'TypeScript', 'Vue.js', 'JavaScript',
         'Frontend Architecture', 'Web Performance', 'Accessibility',
         'GraphQL', 'Node.js', 'Tailwind CSS',
     ],
-    description: 'Senior Frontend Engineer with 10+ years of expertise building enterprise-scale web applications.',
+    description: 'Staff Frontend Engineer with 11+ years of expertise building enterprise-scale web applications.',
 };
 
 export default function RootLayout({
@@ -123,7 +128,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+        <html lang="en" className={`${plex.variable} ${mono.variable}`}>
             <head>
                 <script
                     type="application/ld+json"
@@ -134,12 +139,13 @@ export default function RootLayout({
             </head>
             <body>
                 <ThemeProvider>
+                    <NetworkBackground />
                     <Navbar />
-                    <main id="main-content" role="main" className="min-h-screen">
+                    <main id="main-content" tabIndex={-1} className="relative z-[1] min-h-screen scroll-mt-28 outline-none">
                         {children}
                     </main>
                     <Footer />
-                    <PortfolioChat />
+                    <DeferredWidgets />
                     <Toaster position="bottom-right" />
                 </ThemeProvider>
             </body>

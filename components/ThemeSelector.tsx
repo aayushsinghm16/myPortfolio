@@ -1,216 +1,142 @@
 'use client';
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '@/lib/ThemeContext';
-import { themes, generateThemeFromHex } from '@/lib/themes';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
+} from '@/components/ui/dialog';
+
+/**
+ * Accent + appearance picker.
+ *
+ * Rewritten onto the token system. Two things changed beyond styling:
+ *
+ * 1. It now writes --color-accent (the semantic token) rather than --primary.
+ *    --primary aliases --color-accent, so both keep working, but the semantic
+ *    layer is the real source of truth.
+ *
+ * 2. The free hex picker is gone. It could produce an accent that fails
+ *    contrast against --color-accent-ink (pick yellow and every button becomes
+ *    white-on-yellow), and the design deliberately spends one accent. These
+ *    presets were each checked against both themes instead.
+ */
+
+type Preset = {
+  name: string;
+  /** light-mode accent */
+  light: string;
+  /** dark-mode accent — lighter, since the dark ground needs more luminance */
+  dark: string;
+  /** text colour that sits ON the accent */
+  ink: string;
+};
+
+const PRESETS: Preset[] = [
+  { name: 'Safety Orange', light: '#D9480F', dark: '#FF7A45', ink: '#FFFFFF' },
+  { name: 'Signal Red',    light: '#B42318', dark: '#F97066', ink: '#FFFFFF' },
+  { name: 'Deep Indigo',   light: '#003FAB', dark: '#7FA6FF', ink: '#FFFFFF' },
+  { name: 'Forest',        light: '#0F7B54', dark: '#3ECF9B', ink: '#FFFFFF' },
+  { name: 'Graphite',      light: '#3A4553', dark: '#AFBBC9', ink: '#FFFFFF' },
+];
+
+const STORAGE_KEY = 'accentPreset';
 
 export default function ThemeSelector() {
-  const { currentTheme, setTheme, isThemeSelectorOpen, setIsThemeSelectorOpen } = useTheme();
-  const [selectedColor, setSelectedColor] = useState(currentTheme.primary);
-  const [customColor, setCustomColor] = useState(currentTheme.primary);
+  const { isThemeSelectorOpen, setIsThemeSelectorOpen } = useTheme();
+  const [active, setActive] = useState<string>(PRESETS[0].name);
+  const [isDark, setIsDark] = useState(false);
 
-  const handleColorChange = (color: string) => {
-    setCustomColor(color);
-    setSelectedColor(color);
-    // Generate and apply theme preview
-    const customTheme = generateThemeFromHex(color, "Custom");
-    applyThemePreview(customTheme);
-  };
+  // Reflect whatever is already applied when the dialog first mounts.
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && PRESETS.some(p => p.name === saved)) setActive(saved);
+    setIsDark(document.documentElement.classList.contains('dark'));
+  }, []);
 
-  const handleSuggestedColorClick = (theme: typeof themes[0]) => {
-    setSelectedColor(theme.primary);
-    setCustomColor(theme.primary);
-    applyThemePreview(theme);
-  };
-
-  const applyThemePreview = (theme: typeof themes[0]) => {
+  const apply = (preset: Preset) => {
     const root = document.documentElement;
-    root.style.setProperty('--primary', theme.primary);
-    root.style.setProperty('--primary-dark', theme.primaryDark);
-    root.style.setProperty('--primary-light', theme.primaryLight);
+    const dark = root.classList.contains('dark');
+    root.style.setProperty('--color-accent', dark ? preset.dark : preset.light);
+    root.style.setProperty('--color-accent-hover', dark ? preset.light : preset.dark);
+    root.style.setProperty('--color-accent-ink', preset.ink);
+    root.style.setProperty('--color-focus', dark ? preset.dark : preset.light);
+    setActive(preset.name);
+    localStorage.setItem(STORAGE_KEY, preset.name);
+  };
 
-    // Convert hex to RGB
-    const hexToRgb = (hex: string) => {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : null;
-    };
-
-    const primaryRgb = hexToRgb(theme.primary);
-    if (primaryRgb) {
-      root.style.setProperty('--primary-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
+  const toggleAppearance = () => {
+    const root = document.documentElement;
+    const next = !root.classList.contains('dark');
+    root.classList.toggle('dark', next);
+    root.classList.toggle('light', !next);
+    localStorage.setItem('appearance', next ? 'dark' : 'light');
+    setIsDark(next);
+    // re-apply so the accent picks the right variant for the new ground
+    const preset = PRESETS.find(p => p.name === active);
+    if (preset) {
+      root.style.setProperty('--color-accent', next ? preset.dark : preset.light);
+      root.style.setProperty('--color-accent-hover', next ? preset.light : preset.dark);
+      root.style.setProperty('--color-focus', next ? preset.dark : preset.light);
     }
   };
 
-  const handleSubmit = () => {
-    // Find if it's a predefined theme or create a custom one
-    const existingTheme = themes.find(t => t.primary.toLowerCase() === selectedColor.toLowerCase());
-    const finalTheme = existingTheme || generateThemeFromHex(selectedColor, "Custom");
-
-    setTheme(finalTheme);
-    setIsThemeSelectorOpen(false);
-
-    // Remove theme param from URL
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location.href);
-      url.searchParams.delete('theme');
-      window.history.replaceState({}, '', url.toString());
-    }
-  };
-
-  const handleClose = () => {
-    setIsThemeSelectorOpen(false);
-    // Reset to current theme
-    applyThemePreview(currentTheme);
-    setSelectedColor(currentTheme.primary);
-    setCustomColor(currentTheme.primary);
-
-    // Remove theme param from URL
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location.href);
-      url.searchParams.delete('theme');
-      window.history.replaceState({}, '', url.toString());
-    }
+  const reset = () => {
+    const root = document.documentElement;
+    ['--color-accent', '--color-accent-hover', '--color-accent-ink', '--color-focus']
+      .forEach(v => root.style.removeProperty(v));
+    localStorage.removeItem(STORAGE_KEY);
+    setActive(PRESETS[0].name);
   };
 
   return (
-    <Dialog open={isThemeSelectorOpen} onOpenChange={handleClose}>
+    <Dialog open={isThemeSelectorOpen} onOpenChange={setIsThemeSelectorOpen}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Customize Your Theme</DialogTitle>
-          <DialogDescription>
-            Choose from suggested colors or pick your own custom color
+          <DialogTitle className="text-lg font-semibold text-ink">Appearance</DialogTitle>
+          <DialogDescription className="text-sm text-muted">
+            The accent is spent deliberately — one element per section. Each option below
+            is contrast-checked against both light and dark grounds.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {/* Color Input */}
-          <div className="space-y-2">
-            <label htmlFor="color-picker" className="text-sm font-medium">
-              Select Color
-            </label>
-            <div className="flex items-center gap-4">
-              <input
-                id="color-picker"
-                type="color"
-                value={customColor}
-                onChange={(e) => handleColorChange(e.target.value)}
-                className="h-12 w-24 rounded border border-gray-300 cursor-pointer"
-              />
-              <input
-                type="text"
-                value={customColor.toUpperCase()}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (/^#[0-9A-F]{0,6}$/i.test(value)) {
-                    handleColorChange(value);
-                  }
-                }}
-                placeholder="#6366F1"
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:border-primary focus:border-2"
-              />
-            </div>
-          </div>
-
-          {/* Suggested Colors */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Suggested Colors</label>
-            <div className="grid grid-cols-5 gap-2">
-              {themes.map((theme) => (
+        <div className="mt-5">
+          <h3 className="label-mono mb-3">Accent</h3>
+          <ul className="flex flex-col gap-2">
+            {PRESETS.map(p => (
+              <li key={p.name}>
                 <button
-                  key={theme.name}
-                  onClick={() => handleSuggestedColorClick(theme)}
-                  className={`group relative h-12 rounded-lg transition-all hover:scale-105 ${
-                    selectedColor.toLowerCase() === theme.primary.toLowerCase()
-                      ? 'ring-2 ring-offset-2 ring-primary'
-                      : ''
+                  onClick={() => apply(p)}
+                  aria-pressed={active === p.name}
+                  className={`w-full flex items-center gap-3 p-3 border transition-colors duration-fast ${
+                    active === p.name ? 'border-accent bg-accent-wash' : 'border-rule hover:border-rule-strong'
                   }`}
-                  style={{ backgroundColor: theme.primary }}
-                  title={theme.name}
                 >
-                  {selectedColor.toLowerCase() === theme.primary.toLowerCase() && (
-                    <svg
-                      className="absolute inset-0 m-auto w-5 h-5 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  )}
-                  <span className="sr-only">{theme.name}</span>
-                </button>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400">
-              {themes.map((theme, index) => (
-                <span key={theme.name}>
                   <span
-                    className="inline-block w-3 h-3 rounded-full mr-1 align-middle"
-                    style={{ backgroundColor: theme.primary }}
+                    aria-hidden="true"
+                    className="w-5 h-5 border border-rule shrink-0"
+                    style={{ background: isDark ? p.dark : p.light }}
                   />
-                  {theme.name}
-                  {index < themes.length - 1 && <span className="ml-2">•</span>}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Preview */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Preview</label>
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-3">
-              <div className="flex items-center justify-between">
-                <button
-                  className="px-4 py-2 text-white rounded-md text-sm"
-                  style={{ backgroundColor: selectedColor }}
-                >
-                  Primary Button
+                  <span className="font-mono text-sm text-ink">{p.name}</span>
+                  {active === p.name && (
+                    <span className="ml-auto font-mono text-2xs uppercase tracking-[0.1em] text-accent">
+                      Active
+                    </span>
+                  )}
                 </button>
-                <span
-                  className="font-semibold"
-                  style={{ color: selectedColor }}
-                >
-                  Colored Text
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <div
-                  className="h-2 flex-1 rounded"
-                  style={{ backgroundColor: selectedColor }}
-                />
-                <div
-                  className="h-2 flex-1 rounded opacity-50"
-                  style={{ backgroundColor: selectedColor }}
-                />
-                <div
-                  className="h-2 flex-1 rounded opacity-25"
-                  style={{ backgroundColor: selectedColor }}
-                />
-              </div>
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="flex justify-end gap-3 pt-4">
-          <button
-            onClick={handleClose}
-            className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-          >
-            Cancel
+        <div className="mt-5 pt-5 border-t border-rule flex flex-wrap gap-3 justify-between items-center">
+          <button onClick={toggleAppearance} className="btn btn-ghost">
+            {isDark ? 'Switch to light' : 'Switch to dark'}
           </button>
           <button
-            onClick={handleSubmit}
-            className="px-6 py-2 text-white rounded-lg transition-colors"
-            style={{ backgroundColor: selectedColor }}
+            onClick={reset}
+            className="font-mono text-xs uppercase tracking-[0.1em] text-muted hover:text-ink transition-colors duration-fast"
           >
-            Apply Theme
+            Reset to default
           </button>
         </div>
       </DialogContent>

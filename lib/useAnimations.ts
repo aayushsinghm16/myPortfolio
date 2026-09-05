@@ -64,33 +64,44 @@ export function useCounter(end: number, duration = 2000, startOnView = true) {
   const startedRef = useRef(false);
 
   useEffect(() => {
-    if (!startOnView) {
-      startedRef.current = true;
-    }
-  }, [startOnView]);
-
-  useEffect(() => {
     const el = ref.current;
-    if (!el || !startOnView) return;
 
-    const observer = getSharedObserver(0.3);
-    callbacks.set(el, () => {
+    const startAnim = () => {
       if (startedRef.current) return;
       startedRef.current = true;
+
+      // Respect reduced-motion: jump straight to the final value (never animate from 0)
+      if (typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setCount(end);
+        return;
+      }
 
       let startTime: number;
       const animate = (timestamp: number) => {
         if (!startTime) startTime = timestamp;
         const progress = Math.min((timestamp - startTime) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        const newCount = Math.floor(eased * end);
-        setCount(newCount);
+        setCount(Math.floor(eased * end));
         if (progress < 1) requestAnimationFrame(animate);
       };
       requestAnimationFrame(animate);
-    });
+    };
+
+    if (!startOnView) { startAnim(); return; }
+    if (!el) return;
+
+    // Already visible on mount -> start immediately rather than waiting on an observer that may never fire
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) { startAnim(); return; }
+
+    const observer = getSharedObserver(0.3);
+    callbacks.set(el, startAnim);
     observer.observe(el);
 
+    // No scroll fallback here on purpose: the two branches above (already-in-viewport,
+    // then the shared observer) cover every case, and a per-instance scroll listener
+    // calling getBoundingClientRect() forces a synchronous layout flush on every frame.
     return () => {
       observer.unobserve(el);
       callbacks.delete(el);
@@ -100,30 +111,34 @@ export function useCounter(end: number, duration = 2000, startOnView = true) {
   return { count, ref, start: useCallback(() => {}, []) };
 }
 
-// ====== Mouse parallax (throttled for performance) ======
-export function useMouseParallax(intensity = 0.02) {
+// ====== Mouse parallax ======
+// Writes the transform straight to the node inside rAF. Returning state here would
+// reconcile the entire consuming component on every pointer frame to move one element.
+export function useMouseParallax<T extends HTMLElement = HTMLDivElement>(intensity = 0.02) {
+  const ref = useRef<T>(null);
   const posRef = useRef({ x: 0, y: 0 });
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Skip on mobile/tablet — no mouse, saves CPU
-    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) return;
-    // Skip if user prefers reduced motion
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // No pointer to track on touch devices, and honour reduced-motion.
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       posRef.current = {
         x: (e.clientX - window.innerWidth / 2) * intensity,
         y: (e.clientY - window.innerHeight / 2) * intensity,
       };
-
-      if (!rafRef.current) {
-        rafRef.current = requestAnimationFrame(() => {
-          setPosition({ ...posRef.current });
-          rafRef.current = null;
-        });
-      }
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(() => {
+        const el = ref.current;
+        if (el) {
+          const { x, y } = posRef.current;
+          // translate3d keeps this on the compositor instead of triggering layout.
+          el.style.transform = `translate3d(${-x}px, ${-y}px, 0)`;
+        }
+        rafRef.current = null;
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -133,38 +148,7 @@ export function useMouseParallax(intensity = 0.02) {
     };
   }, [intensity]);
 
-  return position;
-}
-
-// ====== Parallax scroll effect (throttled) ======
-export function useParallax(speed = 0.3) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState(0);
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const handleScroll = () => {
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(() => {
-        if (ref.current) {
-          const rect = ref.current.getBoundingClientRect();
-          const scrolled = window.innerHeight - rect.top;
-          if (scrolled > 0) setOffset(scrolled * speed);
-        }
-        rafRef.current = null;
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [speed]);
-
-  return { ref, offset };
+  return ref;
 }
 
 // ====== Stagger children (optimized: batch state updates) ======

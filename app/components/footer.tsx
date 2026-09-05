@@ -1,21 +1,55 @@
 import React from 'react';
 import Link from 'next/link';
+import { personalInfo } from '../../data/personal';
+import { socialLinks } from '../../data/contact';
 
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-[#f2f4f6] dark:bg-slate-900 w-full" role="contentinfo" aria-label="Site footer">
-            <div className="flex flex-col md:flex-row justify-between items-center px-12 py-16 gap-8 max-w-7xl mx-auto w-full">
-                <div className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold">
-                    &copy; {currentYear} Aayush Singh. All Rights Reserved.
+        <footer
+            className="relative z-[1] w-full border-t border-rule bg-ground mt-10"
+            role="contentinfo"
+            aria-label="Site footer"
+        >
+            <div className="max-w-[1080px] mx-auto px-4 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+                <div>
+                    <p className="font-mono text-sm font-bold text-ink tracking-tight">AAYUSH SINGH</p>
+                    <p className="label-mono mt-1">{personalInfo.title}</p>
                 </div>
-                <div className="flex items-center gap-8">
-                    <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="https://linkedin.com/in/aayushsinghm16" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn</a>
-                    <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="https://github.com/aayushsinghm16" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">GitHub</a>
-                    <Link className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="/" aria-label="Portfolio">Portfolio</Link>
-                    <a className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:text-[var(--primary)] underline-offset-4 hover:underline" href="mailto:aayushsinghm16@gmail.com" aria-label="Send email">Email</a>
-                </div>
+
+                <nav aria-label="Footer" className="flex flex-wrap items-center gap-5">
+                    {socialLinks.map(l => (
+                        <a
+                            key={l.name}
+                            href={l.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-xs uppercase tracking-[0.1em] text-muted hover:text-accent transition-colors duration-fast"
+                        >
+                            {l.name}
+                            <span className="sr-only"> (opens in a new tab)</span>
+                        </a>
+                    ))}
+                    <a
+                        href={`mailto:${personalInfo.email}`}
+                        className="font-mono text-xs uppercase tracking-[0.1em] text-muted hover:text-accent transition-colors duration-fast"
+                    >
+                        Email
+                    </a>
+                    <Link
+                        href="/contact"
+                        className="font-mono text-xs uppercase tracking-[0.1em] text-muted hover:text-accent transition-colors duration-fast"
+                    >
+                        Contact
+                    </Link>
+                </nav>
+            </div>
+
+            <div className="border-t border-rule">
+                <p className="max-w-[1080px] mx-auto px-4 lg:px-8 py-4 label-mono">
+                    &copy; {currentYear} Aayush Singh — built with Next.js, deployed on Vercel
+                </p>
             </div>
         </footer>
     );

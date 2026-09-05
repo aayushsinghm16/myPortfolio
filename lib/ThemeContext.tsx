@@ -40,6 +40,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Apply theme to CSS variables
     if (typeof document !== 'undefined') {
       const root = document.documentElement;
+
+      // No explicit choice -> let app/tokens.css own the accent. Writing here
+      // unconditionally is what made the header render in the previous theme's
+      // colour after the token system landed.
+      if (typeof window !== 'undefined' && !localStorage.getItem('selectedTheme')) {
+        root.style.removeProperty('--primary');
+        root.style.removeProperty('--primary-dark');
+        root.style.removeProperty('--primary-light');
+        root.style.removeProperty('--primary-rgb');
+        return;
+      }
+
       root.style.setProperty('--primary', currentTheme.primary);
       root.style.setProperty('--primary-dark', currentTheme.primaryDark);
       root.style.setProperty('--primary-light', currentTheme.primaryLight);

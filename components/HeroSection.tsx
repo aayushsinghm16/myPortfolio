@@ -1,129 +1,121 @@
-'use client';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { personalInfo } from '../data/personal';
-import { useMouseParallax, useCounter } from '../lib/useAnimations';
 
-const HeroSection: React.FC = () => {
-    const mouse = useMouseParallax(0.015);
-    const years = useCounter(10, 1800);
-    const apps = useCounter(15, 1600);
-    const deployments = useCounter(120, 2200);
+/**
+ * Title block — the engineering-drawing opener.
+ *
+ * Server component: there is no interactive state here any more. The mouse
+ * parallax and the animated counters were removed deliberately — the figures
+ * are the point, and they are readable in the first frame rather than counting
+ * up from zero or waiting on an observer.
+ *
+ * Every colour comes from a semantic token; no hex values in this file.
+ */
 
-    return (
-        <>
-            {/* Hero Section */}
-            <section
-                className="relative min-h-[870px] flex items-center overflow-hidden px-8 lg:px-24"
-                aria-labelledby="hero-heading"
-            >
-                <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                    {/* Left content */}
-                    <div className="lg:col-span-7 z-10">
-                        <span className="inline-block px-4 py-1.5 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] font-heading text-xs font-bold uppercase tracking-widest mb-6">
-                            {personalInfo.title}
-                        </span>
-                        <h1
-                            id="hero-heading"
-                            className="font-heading text-6xl md:text-8xl font-extrabold text-slate-900 dark:text-white tracking-tighter leading-[0.9] mb-8"
-                            style={{ textWrap: 'balance' } as React.CSSProperties}
-                        >
-                            Aayush <span className="text-[var(--primary)]">Singh</span>
-                        </h1>
-                        <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mb-12">
-                            Delivering <span className="text-slate-900 dark:text-white">10+ years</span> of expertise in architecting high-performance e-commerce and fintech applications for global brands.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/projects"
-                                className="bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-heading font-bold text-base shadow-lg shadow-[var(--primary)]/20 hover:scale-[1.02] transition-transform"
-                                aria-label="View Projects"
-                            >
-                                View Projects
-                            </Link>
-                            <a
-                                href="/Aayush_Singh_Resume.pdf"
-                                download="Aayush_Singh_Senior_Frontend_Engineer.pdf"
-                                className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-heading font-bold px-8 py-4 rounded-xl border border-slate-200/15 dark:border-slate-700/15 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors inline-flex items-center gap-2"
-                                aria-label="Download CV"
-                            >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Download CV
-                            </a>
-                        </div>
-                    </div>
+const fields = [
+  { k: 'Discipline', v: 'Frontend architecture, design systems, build & release' },
+  { k: 'Domains', v: 'Regulated fintech · Enterprise e-commerce · Real-time 3D' },
+  { k: 'Core stack', v: 'React · Next.js · TypeScript · GraphQL · NX' },
+];
 
-                    {/* Right - Profile Image */}
-                    <div className="lg:col-span-5 relative">
-                        <div
-                            className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl relative z-10 transition-transform duration-700 ease-out"
-                            style={{ transform: `translate(${-mouse.x}px, ${-mouse.y}px)` }}
-                        >
-                            <Image
-                                src="/profile2.JPG"
-                                alt="Aayush Singh Portrait"
-                                fill
-                                sizes="(max-width: 768px) 100vw, 40vw"
-                                className="w-full h-full object-cover transition-all duration-700"
-                                priority
-                            />
-                        </div>
-                        {/* Decorative Elements */}
-                        <div className="absolute -top-12 -right-12 w-64 h-64 bg-[var(--primary)]/5 rounded-full blur-3xl -z-0" aria-hidden="true"></div>
-                        <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-[var(--primary)]/10 rounded-full blur-2xl -z-0" aria-hidden="true"></div>
-                    </div>
-                </div>
-            </section>
+const metrics = [
+  { v: '1M+', k: 'Users reached', src: 'SigFig, via banking partners' },
+  { v: '5 / 12', k: 'Brands / locales', src: 'Goodyear NX monorepo', hl: true },
+  { v: '0', k: 'WCAG AA findings', src: 'Audited, not claimed' },
+  { v: '100K+', k: 'Designers served', src: 'Foyr, 30+ countries' },
+];
 
-            {/* Built for Scale - Experience Summary */}
-            <section className="bg-[#f2f4f6] dark:bg-slate-900/50 py-24 px-8 lg:px-24" aria-label="Experience summary">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
-                        <div className="lg:col-span-1">
-                            <h2 className="font-heading text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-                                Built for <br />Scale.
-                            </h2>
-                            <div className="w-16 h-1 bg-[var(--primary)] rounded-full" aria-hidden="true"></div>
-                        </div>
-                        <div className="lg:col-span-2">
-                            <p className="font-sans text-2xl text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
-                                Specializing in <span className="text-[var(--primary)] font-bold">React &amp; Next.js</span>, I build robust frontend architectures that reduce load times by up to 45% and support millions of users across enterprise-grade platforms.
-                            </p>
-                            <div ref={years.ref} className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                                <div>
-                                    <div className="text-4xl font-heading font-extrabold text-slate-900 dark:text-white mb-1">
-                                        {years.count}yr+
-                                    </div>
-                                    <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                                        Experience
-                                    </div>
-                                </div>
-                                <div ref={apps.ref}>
-                                    <div className="text-4xl font-heading font-extrabold text-slate-900 dark:text-white mb-1">
-                                        {apps.count}+
-                                    </div>
-                                    <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                                        Enterprise Apps
-                                    </div>
-                                </div>
-                                <div ref={deployments.ref}>
-                                    <div className="text-4xl font-heading font-extrabold text-slate-900 dark:text-white mb-1">
-                                        {deployments.count}+
-                                    </div>
-                                    <div className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-                                        Deployments
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </>
-    );
-};
+export default function HeroSection() {
+  return (
+    <>
+      {/* ── Title block ─────────────────────────────────────────── */}
+      <section className="px-4 lg:px-8 pt-[88px]" aria-labelledby="hero-heading">
+        <div className="max-w-[1080px] mx-auto panel panel-strong">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 p-6 lg:p-8 border-b border-rule">
+            <div>
+              <p className="label-mono mb-4">{personalInfo.title}</p>
+              <h1
+                id="hero-heading"
+                className="text-3xl md:text-4xl font-semibold text-ink mb-4"
+                style={{ letterSpacing: '-0.035em' }}
+              >
+                {personalInfo.name}
+              </h1>
+              <p className="text-md text-body max-w-[52ch] leading-snug">
+                I architect frontend systems that outlive their original teams —{' '}
+                <strong className="text-ink font-semibold">11+ years</strong> setting the
+                patterns, build systems and standards that other engineers build on, across
+                regulated fintech and enterprise e-commerce.
+              </p>
 
-export default HeroSection;
+              <div className="flex flex-wrap gap-3 mt-6">
+                <Link href="/projects" className="btn">View work</Link>
+                <a
+                  href="/Aayush_Singh_Resume.pdf"
+                  download="Aayush_Singh_Staff_Frontend_Engineer.pdf"
+                  className="btn btn-ghost"
+                >
+                  Download CV
+                </a>
+              </div>
+            </div>
+
+            <div className="hidden md:block w-[132px]">
+              <div className="relative aspect-[4/5] border border-rule bg-panel-alt overflow-hidden">
+                <Image
+                  src="/profile2.JPG"
+                  alt={`${personalInfo.name}, ${personalInfo.title}`}
+                  fill
+                  sizes="132px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* title-block fields */}
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {fields.map(f => (
+              <div key={f.k} className="p-4 border-r border-t border-rule last:border-r-0">
+                <p className="label-mono mb-1">{f.k}</p>
+                <p className="text-sm text-ink font-medium">{f.v}</p>
+              </div>
+            ))}
+            <div className="p-4 border-t border-rule">
+              <p className="label-mono mb-1">Status</p>
+              <p className="text-sm text-ink font-medium">
+                <span className="text-accent">Open</span> — remote or relocation
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── §01 Evidence ────────────────────────────────────────── */}
+      <section className="px-4 lg:px-8 mt-9" aria-labelledby="evidence-heading">
+        <div className="max-w-[1080px] mx-auto">
+          <div className="section-head">
+            <span className="label-mono">§ 01 — Evidence</span>
+            <h2 id="evidence-heading" className="section-title">Scope, in the units that matter</h2>
+          </div>
+          <p className="text-sm text-muted mt-3 max-w-[62ch]">
+            Every figure traces to a named engagement. Nothing here is self-scored.
+          </p>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 panel mt-5">
+            {metrics.map(m => (
+              <div key={m.k} className="p-5 border-r border-b border-rule last:border-r-0">
+                <p className={`figure-value text-xl ${m.hl ? 'text-accent' : ''}`}>{m.v}</p>
+                <p className="label-mono mt-2">{m.k}</p>
+                <p className="text-sm text-muted mt-1 leading-snug">{m.src}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

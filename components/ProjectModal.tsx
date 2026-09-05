@@ -26,7 +26,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl w-[90vw] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-primary/20 dark:border-primary/30">
-        <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-lg mb-6">
+        <div className="relative w-full h-64 md:h-80  overflow-hidden shadow-soft mb-6">
           <Image
             src={project.image}
             alt={project.title}
@@ -40,7 +40,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">{project.title}</DialogTitle>
           <DialogDescription className="text-gray-500 dark:text-gray-400">
             {project.categories.map((category) => (
-              <span key={category} className="inline-block mr-2 text-sm bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-400 px-2 py-0.5 rounded-full">
+              <span key={category} className="chip mr-2">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </span>
             ))}
@@ -58,7 +58,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             {project.tags.map((tag, index) => (
               <span
                 key={index}
-                className="bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-400 px-3 py-1 rounded-full text-sm"
+                className="chip"
               >
                 {tag}
               </span>
