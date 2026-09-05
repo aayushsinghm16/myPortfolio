@@ -27,7 +27,7 @@ async function verifyCaptcha(token: string) {
 
 export async function POST(req: Request) {
     try {
-        const { name, email, message, captchaToken } = await req.json();
+        const { name, email, subject, message, captchaToken } = await req.json();
 
         // Verify CAPTCHA
         const { success, score } = await verifyCaptcha(captchaToken);
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         const data = await resend.emails.send({
             from: 'Portfolio Contact <onboarding@resend.dev>',
             to: 'aayushsinghm16@gmail.com',
-            subject: `New Contact Form Submission from ${name}`,
+            subject: subject ? `Portfolio — ${subject} (from ${name})` : `New Contact Form Submission from ${name}`,
             react: EmailTemplate({ name: name, email: email, message: message }),
         });
         return NextResponse.json({ success: true, data });
