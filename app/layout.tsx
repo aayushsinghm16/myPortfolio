@@ -44,7 +44,8 @@ export const metadata: Metadata = {
         'Frontend System Design', 'Web Accessibility WCAG', 'Performance Optimization',
         'E-commerce Developer', 'Fintech Developer',
         'Publicis Sapient', 'Goodyear', 'SigFig', 'Foyr',
-        'Delhi NCR Developer', 'Remote Frontend Engineer', 'Hire Staff Frontend Engineer',
+        'Ghaziabad Developer', 'Delhi NCR Developer', 'Remote Frontend Engineer',
+        'Relocation Worldwide', 'Visa Sponsorship', 'Hire Staff Frontend Engineer',
     ],
     authors: [{ name: 'Aayush Singh', url: SITE_URL }],
     creator: 'Aayush Singh',
@@ -106,7 +107,7 @@ const jsonLd = {
     },
     address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Delhi NCR',
+        addressLocality: 'Ghaziabad',
         addressCountry: 'IN',
     },
     email: 'aayushsinghm16@gmail.com',

@@ -11,8 +11,8 @@ export const contactInfo = [
   },
   {
     title: "Location",
-    details: "Delhi NCR, India",
-    action: "https://www.google.com/maps/place/Delhi+NCR"
+    details: "Ghaziabad, India — open to anywhere",
+    action: "https://www.google.com/maps/place/Ghaziabad"
   }
 ];
 

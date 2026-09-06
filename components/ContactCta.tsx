@@ -11,8 +11,9 @@ export default function ContactCta() {
             Open to Staff / Principal and architect roles
           </h2>
           <p className="text-sm text-muted max-w-[48ch]">
-            Remote, or relocation with sponsorship. Based in India (IST) — overlapping
-            European afternoons and US mornings.
+            Based in Ghaziabad, India (IST) and open to anywhere — fully remote, or
+            relocation with visa sponsorship. Hours overlap European afternoons
+            and US mornings.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

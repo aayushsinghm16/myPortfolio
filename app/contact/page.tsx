@@ -21,9 +21,9 @@ export default function ContactPage() {
           <p className="label-mono mb-4">Contact</p>
           <h1 className="text-2xl font-semibold text-ink mb-3">Start a conversation</h1>
           <p className="text-md text-body max-w-[58ch]">
-            Open to Staff / Principal and frontend architect roles — remote, or relocation
-            with sponsorship. Based in India (IST), overlapping European afternoons and
-            US mornings.
+            Open to Staff / Principal and frontend architect roles. Based in Ghaziabad,
+            India (IST) and open to anywhere — fully remote, or relocation with visa
+            sponsorship. Hours overlap European afternoons and US mornings.
           </p>
         </header>
 

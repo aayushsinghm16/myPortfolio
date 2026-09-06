@@ -18,6 +18,7 @@ const fields = [
   { k: 'Discipline', v: 'Frontend architecture, design systems, build & release' },
   { k: 'Domains', v: 'Regulated fintech · Enterprise e-commerce · Real-time 3D' },
   { k: 'Core stack', v: 'React · Next.js · TypeScript · GraphQL · NX' },
+  { k: 'Based', v: 'Ghaziabad, India (IST) — open to anywhere' },
 ];
 
 const metrics = [
@@ -77,7 +78,7 @@ export default function HeroSection() {
           </div>
 
           {/* title-block fields */}
-          <div className="grid grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 lg:grid-cols-5">
             {fields.map(f => (
               <div key={f.k} className="p-4 border-r border-t border-rule last:border-r-0">
                 <p className="label-mono mb-1">{f.k}</p>
@@ -87,7 +88,7 @@ export default function HeroSection() {
             <div className="p-4 border-t border-rule">
               <p className="label-mono mb-1">Status</p>
               <p className="text-sm text-ink font-medium">
-                <span className="text-accent">Open</span> — remote or relocation
+                <span className="text-accent">Open</span> — remote or relocation, worldwide
               </p>
             </div>
           </div>

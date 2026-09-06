@@ -129,7 +129,7 @@ AAYUSH SINGH — PROFILE DATA
 
 NAME: ${personalInfo.name}
 TITLE: ${personalInfo.title}
-LOCATION: Delhi NCR, India
+LOCATION: Ghaziabad, India (IST) — open to relocation worldwide and fully remote
 EMAIL: ${personalInfo.email}
 GITHUB: ${personalInfo.github}
 LINKEDIN: ${personalInfo.linkedin}
@@ -210,7 +210,7 @@ function getFallbackResponse(message: string): string {
   if (lower.includes('project'))
     return `Key projects: Goodyear E-Commerce (Next.js 15, Zustand, GraphQL), Digital Wealth at SigFig, Foyr Neo 3D, PandeyG, RHKN portal, and QuizKode.`;
   if (lower.includes('contact') || lower.includes('email'))
-    return `Reach Aayush at aayushsinghm16@gmail.com, GitHub (aayushsinghm16), or LinkedIn (aayushsinghm16). Based in Delhi NCR, India.`;
+    return `Reach Aayush at aayushsinghm16@gmail.com, GitHub (aayushsinghm16), or LinkedIn (aayushsinghm16). Based in Ghaziabad, India (IST) — open to relocation worldwide and to fully remote roles, with hours overlapping European afternoons and US mornings.`;
   if (lower.includes('education'))
     return `B.Tech in ECE from GRD Institute of Management and Technology, Dehradun (2012). Higher Secondary from DAV Public School (2008).`;
   if (lower.match(/^(hi|hello|hey)/))
