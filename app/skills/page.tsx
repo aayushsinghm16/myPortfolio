@@ -88,7 +88,7 @@ export default function SkillsPage() {
             <Link href="/projects" className="btn">View work</Link>
             <a
               href="/Aayush_Singh_Resume.pdf"
-              download="Aayush_Singh_Staff_Frontend_Engineer.pdf"
+              download="Aayush_Singh_Principal_Staff_Frontend_Architect.pdf"
               className="btn btn-ghost"
             >
               Download CV
