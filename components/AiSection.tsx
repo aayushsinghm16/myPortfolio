@@ -14,7 +14,7 @@ import { McpBoundaryDiagram } from './AiDiagrams';
  */
 export default function AiSection() {
   const featured = aiRecords.filter(r =>
-    ['harbor', 'design-system-mcp', 'portfolio-assistant'].includes(r.id)
+    ['harbor-console', 'harbor', 'design-system-mcp'].includes(r.id)
   );
 
   return (
@@ -54,7 +54,19 @@ export default function AiSection() {
                   <h3 className="text-md font-semibold text-ink">{r.name}</h3>
                   <p className="font-mono text-sm text-muted mt-1">{r.context}</p>
                 </div>
-                <span className="chip chip-accent whitespace-nowrap">{r.status}</span>
+                {r.link ? (
+                  <a
+                    href={r.link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-xs uppercase tracking-[0.1em] text-accent border-b border-accent pb-0.5 whitespace-nowrap hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
+                  >
+                    {r.status} <span aria-hidden="true">↗</span>
+                    <span className="sr-only">— opens {r.link.label} in a new tab</span>
+                  </a>
+                ) : (
+                  <span className="chip whitespace-nowrap">{r.status}</span>
+                )}
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-rule">

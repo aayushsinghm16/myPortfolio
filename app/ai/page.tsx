@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { aiIntro, aiRecords, aiToolingFacts, skillExhibit, guardrailMatrix } from '../../data/ai';
+import { aiIntro, aiRecords, aiToolingFacts, skillExhibit, guardrailMatrix, otherAiRepos } from '../../data/ai';
 import { GuardrailFlowDiagram, McpBoundaryDiagram, AgentLoopDiagram } from '../../components/AiDiagrams';
 
 /**
@@ -62,7 +62,19 @@ export default function AiPage() {
                     <h3 className="text-md font-semibold text-ink">{r.name}</h3>
                     <p className="font-mono text-sm text-muted mt-1">{r.context}</p>
                   </div>
-                  <span className="chip chip-accent whitespace-nowrap">{r.status}</span>
+                {r.link ? (
+                  <a
+                    href={r.link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-xs uppercase tracking-[0.1em] text-accent border-b border-accent pb-0.5 whitespace-nowrap hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
+                  >
+                    {r.status} <span aria-hidden="true">↗</span>
+                    <span className="sr-only">— opens {r.link.label} in a new tab</span>
+                  </a>
+                ) : (
+                  <span className="chip whitespace-nowrap">{r.status}</span>
+                )}
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-rule">
                   <div className="p-5 border-b lg:border-b-0 lg:border-r border-rule">
@@ -84,6 +96,37 @@ export default function AiPage() {
               </article>
             ))}
           </div>
+        </section>
+
+        {/* ── §02b Also public ───────────────────────────────────── */}
+        <section className="mt-9" aria-labelledby="other-heading">
+          <div className="section-head">
+            <span className="label-mono">§ 02b — Also public</span>
+            <h2 id="other-heading" className="section-title">Shipped elsewhere</h2>
+          </div>
+          <ul className="panel mt-5">
+            {otherAiRepos.map(r => (
+              <li key={r.name} className="grid grid-cols-1 sm:grid-cols-[200px_1fr] border-b border-rule last:border-b-0">
+                <div className="p-5 sm:border-r border-rule">
+                  <a
+                    href={r.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-sm text-accent border-b border-accent pb-0.5 hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
+                  >
+                    {r.name} <span aria-hidden="true">↗</span>
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                </div>
+                <div className="p-5 pt-0 sm:pt-5">
+                  <p className="text-sm text-body">{r.what}</p>
+                  <ul className="flex flex-wrap gap-2 mt-3">
+                    {r.tags.map(t => <li key={t} className="chip">{t}</li>)}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ── §03 Guardrails ─────────────────────────────────────── */}

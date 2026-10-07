@@ -2,8 +2,10 @@
  * AI & agentic systems work.
  *
  * Framing rules applied here, so later edits keep them:
- * - harbor-mcp-server is a reference implementation built as an Upwork
- *   portfolio piece, not client production work. It is described as such.
+ * - harbor is two public MIT repos: harbor-mcp-server (the guarded server)
+ *   and harbor-console (a streaming chat UI over it). Built as an Upwork
+ *   portfolio piece, so it is described as open source rather than as client
+ *   production work — but it IS linkable, which makes it checkable.
  * - The design system MCP server was built at Publicis Sapient and is their
  *   IP. It is described by the problem it solved, carries no link or repo,
  *   and the internal library name is deliberately omitted. Describing that
@@ -12,9 +14,10 @@
  *   account it drives is deliberately not named.
  * - The model benchmark produced raw output but no scored write-up, so no
  *   winner is claimed. "Benchmarked" is the honest verb.
- * - Component scope is left unenumerated on purpose: the local copy of the
- *   source types components as 'atom' | 'molecule' only, with no mention of
- *   organisms anywhere in it. Saying "real components" is true either way.
+ * - Component scope is atoms, molecules AND organisms, confirmed by Aayush.
+ *   Note the local copy at D:/Projects/tools/mcp-polymer-ds is an earlier cut
+ *   that types only 'atom' | 'molecule' — the Sapient version went further.
+ *   Do not "correct" this back from that older source.
  */
 
 export interface AiRecord {
@@ -37,10 +40,27 @@ export const aiIntro =
 
 export const aiRecords: AiRecord[] = [
   {
+    id: 'harbor-console',
+    name: 'harbor-console',
+    context: 'Streaming chat UI over a guarded MCP server · Next.js · public, MIT',
+    status: 'Open source',
+    constraint:
+      'Most AI chat UIs are demos with simulated tool calls and a happy path. Every call here is a real MCP tools/call against a real database, and the interesting states are the ones usually skipped. A tool card appears the moment the model asks — running, before anyone knows the outcome — then resolves green with a row count or amber with the refusal reason. The demo’s fourth suggested prompt is "Delete all the invoices": the model genuinely tries, the guard refuses, and that renders as a card you can read rather than a crash.',
+    outcome: [
+      'Real MCP client — initialize, tools/list, tools/call; pointing it at a remote server is a transport swap and nothing else',
+      'Stop actually aborts through to the provider, rather than hiding output that keeps generating and keeps billing',
+      'Transcript follows the stream but stops the instant you scroll up, and offers to catch up instead of yanking you back',
+      'Custom renderer for the markdown subset Harbor returns — no dangerouslySetInnerHTML, no XSS surface, ~40 kB of client JS not shipped. 107 kB first load',
+      'Reduced motion respected, focus rings throughout, composer labelled and keyboard-driven',
+    ],
+    tags: ['Next.js', 'MCP client', 'Streaming', 'AbortController', 'Accessibility', 'TypeScript'],
+    link: { label: 'github.com/aayushsinghm16/harbor-console', url: 'https://github.com/aayushsinghm16/harbor-console' },
+  },
+  {
     id: 'harbor',
     name: 'harbor-mcp-server',
-    context: 'MCP server · agent access to a subscription business database',
-    status: 'Reference implementation',
+    context: 'MCP server · agent access to a subscription business database · public, MIT',
+    status: 'Open source',
     constraint:
       '"Let an agent query our database" is a two-line proof of concept and a genuinely hard production problem. I rejected pattern-matching the SQL string — a regex looking for DROP is defeated by comments, casing and string literals — and parse every statement into an AST instead, allowlisting tables and clauses from the tree rather than the text. Personal data is masked on the way out, result sets are clamped, and writes require a preview plus a confirmation token.',
     outcome: [
@@ -50,6 +70,7 @@ export const aiRecords: AiRecord[] = [
       'Ships with a seeded demo database — nothing to provision before asking it a question',
     ],
     tags: ['MCP', 'TypeScript', 'AST parsing', 'SQL guardrails', 'PII masking', 'Audit logging'],
+    link: { label: 'github.com/aayushsinghm16/harbor-mcp-server', url: 'https://github.com/aayushsinghm16/harbor-mcp-server' },
   },
   {
     id: 'design-system-mcp',
@@ -59,7 +80,8 @@ export const aiRecords: AiRecord[] = [
     constraint:
       'Agents writing UI reinvent components that already exist, because they cannot see the design system. Pasting component source into the context window is expensive and goes stale the moment the library moves. I exposed the library as typed MCP tools instead — discovery, component detail, search, generated usage, and the correct import statement — reading from a read-only mount so the tool can never be the thing that breaks the library.',
     outcome: [
-      'An agent can discover, inspect and correctly import real components instead of inventing them',
+      'Full atomic-design coverage — atoms, molecules and organisms, discoverable and searchable by an agent',
+      'An agent can inspect props and variants and emit the correct import instead of inventing a component',
       'The design system becomes an agent-callable API rather than pasted context',
       'Containerised, with the component library mounted read-only',
     ],
@@ -113,9 +135,9 @@ export const aiRecords: AiRecord[] = [
 /** Claude Code customisation — the "how I work with AI" exhibit. */
 export const aiToolingFacts = [
   { k: 'MCP servers built', v: '2', note: 'database access, design system' },
+  { k: 'Open-source AI repos', v: '4', note: 'MIT, on GitHub' },
   { k: 'Scheduled agents', v: '4', note: 'running unattended, daily' },
   { k: 'Custom skills authored', v: '12+', note: 'project skills and job-search pipeline' },
-  { k: 'Models benchmarked', v: '2', note: 'on the real authoring task' },
 ];
 
 /**
@@ -176,3 +198,22 @@ export const guardrailMatrix = {
     { attempt: 'SELECT SUM(amount_cents) … GROUP BY …', result: 'Allowed', why: 'aggregates bound their own output' },
   ],
 };
+
+/**
+ * Other public AI work. Deliberately a short list rather than full case
+ * records — the section should not become a repo dump.
+ */
+export const otherAiRepos = [
+  {
+    name: 'FillMyApp',
+    what: 'Chrome extension that auto-fills job application forms from a profile, with AI-generated answers for the free-text questions.',
+    tags: ['Chrome Extension', 'TypeScript', 'LLM'],
+    url: 'https://github.com/aayushsinghm16/FillMyApp',
+  },
+  {
+    name: 'social-support-app',
+    what: 'Government social-support portal with AI writing assistance for applicants — Next.js 15, React 19, TypeScript.',
+    tags: ['Next.js 15', 'React 19', 'LLM', 'Civic tech'],
+    url: 'https://github.com/aayushsinghm16/social-support-app',
+  },
+];
