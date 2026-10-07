@@ -127,6 +127,22 @@ export const experienceData: Experience[] = [
         skills: ["Python", "Flask", "MongoDB", "Google Maps API", "Matplotlib", "JavaScript", "jQuery"]
     },
     {
+        // The record previously jumped straight from Ericsson to IIT Delhi, which
+        // read as a 12-month gap. It was not one: this period was freelance
+        // frontend work and self-directed projects, and it is where the move out
+        // of telecom into software actually happened.
+        // TODO(aayush): fill in the clients/projects and the real tech list.
+        company: "Freelance",
+        role: "Frontend Developer",
+        period: "June 2014 - June 2015",
+        type: "Freelance",
+        context: "Client frontend work alongside self-directed projects — the move from telecom into software",
+        achievements: [
+            "Took on freelance frontend work and built self-directed projects while transitioning out of telecom — the period the shift from hardware systems to interfaces actually happened."
+        ],
+        skills: ["JavaScript", "HTML5 / CSS3", "Frontend Development"]
+    },
+    {
         company: "Ericsson · Schmid Telecom AG",
         role: "Engineer — Telecom / RF",
         period: "December 2012 - June 2014",
@@ -186,12 +202,21 @@ export const careerStats = (() => {
     const first = spans[0].start;
     const last = spans[spans.length - 1].end;
 
+    let longestGapMonths = 0;
+    for (let i = 1; i < merged.length; i++) {
+        longestGapMonths = Math.max(longestGapMonths, monthsBetween(merged[i - 1].end, merged[i].start));
+    }
+
     return {
         roles: experienceData.length,
         startYear: first.getUTCFullYear(),
-        /** years actually worked, gaps excluded — floored, so "11" means at least 11 */
+        /** years actually worked, any gaps excluded — floored, so "11" means at least 11 */
         yearsWorked: Math.floor(workedMonths / 12),
         /** calendar years from first start to last end */
         yearsSpan: Math.round(monthsBetween(first, last) / 12),
+        /** the single longest uncovered stretch, in months */
+        longestGapMonths,
+        /** true only when nothing longer than an ordinary job move is uncovered */
+        continuous: longestGapMonths <= 3,
     };
 })();

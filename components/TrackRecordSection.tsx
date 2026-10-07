@@ -22,8 +22,11 @@ export default function TrackRecordSection() {
       <div className="max-w-[1080px] mx-auto">
         <div className="section-head">
           <span className="label-mono">§ 05 — Track record</span>
+          {/* Every part derived: the number from the periods, and "no gaps" only
+              when careerStats says nothing longer than a job move is uncovered.
+              A claim that checks itself cannot rot. */}
           <h2 id="track-heading" className="section-title">
-            {careerStats.roles} roles, {careerStats.yearsWorked} years
+            {careerStats.yearsWorked} years{careerStats.continuous ? ', no gaps' : `, ${careerStats.roles} roles`}
           </h2>
         </div>
 

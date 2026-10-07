@@ -55,9 +55,11 @@ export default function AboutPage() {
         <section className="mt-9" aria-labelledby="history-heading">
           <div className="section-head">
             <span className="label-mono">§ 01 — Track record</span>
-            {/* Derived, not written. "No gaps" was false: 16 months of them. */}
+            {/* Every part derived: the number from the periods, and "no gaps" only
+                when careerStats says nothing longer than a job move is uncovered.
+                A claim that checks itself cannot rot. */}
             <h2 id="history-heading" className="section-title">
-              {careerStats.roles} roles, {careerStats.yearsWorked} years
+              {careerStats.yearsWorked} years{careerStats.continuous ? ', no gaps' : `, ${careerStats.roles} roles`}
             </h2>
           </div>
 
