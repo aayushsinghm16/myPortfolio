@@ -138,3 +138,60 @@ export const experienceData: Experience[] = [
         skills: ["Network Infrastructure", "RF Engineering", "Troubleshooting"]
     }
 ];
+
+/**
+ * Career totals, derived from the periods above rather than written by hand.
+ *
+ * The site previously claimed "Eleven years, no gaps". The number was right but
+ * the claim was not: the record contains 16 months of gaps, the largest being
+ * June 2014 to June 2015. Deriving the figures means the headline can never
+ * drift from the data again — add or edit a role and it recomputes.
+ *
+ * Computed at module load from static data, so this costs nothing at runtime.
+ */
+const MONTHS: Record<string, number> = {
+    January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+    July: 6, August: 7, September: 8, October: 9, November: 10, December: 11,
+};
+
+function monthsBetween(a: Date, b: Date): number {
+    return Math.round((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24 * 30.4375));
+}
+
+export const careerStats = (() => {
+    const parse = (s: string) => {
+        const [mo, yr] = s.trim().split(/\s+/);
+        return new Date(Date.UTC(Number(yr), MONTHS[mo] ?? 0, 1));
+    };
+
+    const spans = experienceData
+        .map(r => {
+            const [from, to] = r.period.split(' - ');
+            return { start: parse(from), end: parse(to) };
+        })
+        .sort((x, y) => x.start.getTime() - y.start.getTime());
+
+    // Merge overlapping roles before summing, or concurrent work double-counts.
+    const merged: { start: Date; end: Date }[] = [];
+    for (const s of spans) {
+        const last = merged[merged.length - 1];
+        if (last && s.start <= last.end) {
+            if (s.end > last.end) last.end = s.end;
+        } else {
+            merged.push({ start: s.start, end: new Date(s.end) });
+        }
+    }
+
+    const workedMonths = merged.reduce((n, m) => n + monthsBetween(m.start, m.end), 0);
+    const first = spans[0].start;
+    const last = spans[spans.length - 1].end;
+
+    return {
+        roles: experienceData.length,
+        startYear: first.getUTCFullYear(),
+        /** years actually worked, gaps excluded — floored, so "11" means at least 11 */
+        yearsWorked: Math.floor(workedMonths / 12),
+        /** calendar years from first start to last end */
+        yearsSpan: Math.round(monthsBetween(first, last) / 12),
+    };
+})();

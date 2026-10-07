@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { experienceData } from '../data/experience';
+import { experienceData, careerStats } from '../data/experience';
 import { films } from '../data/films';
 import { Film } from './Film';
 
@@ -22,7 +22,9 @@ export default function TrackRecordSection() {
       <div className="max-w-[1080px] mx-auto">
         <div className="section-head">
           <span className="label-mono">§ 05 — Track record</span>
-          <h2 id="track-heading" className="section-title">Eleven years, no gaps</h2>
+          <h2 id="track-heading" className="section-title">
+            {careerStats.roles} roles, {careerStats.yearsWorked} years
+          </h2>
         </div>
 
         <ol className="panel mt-5">

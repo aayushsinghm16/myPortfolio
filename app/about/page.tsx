@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { personalInfo } from '../../data/personal';
-import { experienceData } from '../../data/experience';
+import { experienceData, careerStats } from '../../data/experience';
 import { educationHistory } from '../../data/education';
 import { films } from '../../data/films';
 import { Film } from '../../components/Film';
@@ -55,7 +55,10 @@ export default function AboutPage() {
         <section className="mt-9" aria-labelledby="history-heading">
           <div className="section-head">
             <span className="label-mono">§ 01 — Track record</span>
-            <h2 id="history-heading" className="section-title">Eleven years, no gaps</h2>
+            {/* Derived, not written. "No gaps" was false: 16 months of them. */}
+            <h2 id="history-heading" className="section-title">
+              {careerStats.roles} roles, {careerStats.yearsWorked} years
+            </h2>
           </div>
 
           <ol className="panel mt-5">
@@ -93,7 +96,7 @@ export default function AboutPage() {
             ))}
           </ol>
 
-          {/* The same eleven years as the list above, as a 14s film. It sits
+          {/* The same career as the list above, as a 14s film. It sits
               inside the Track record section rather than in one of its own,
               because it is the same argument in a different medium. */}
           <Film

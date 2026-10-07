@@ -7,7 +7,7 @@ import { Film } from '../../components/Film';
 export const metadata: Metadata = {
   title: 'Motion Reel — Five Short Films',
   description:
-    'Five 14-second films on eleven years of frontend architecture, built as deterministic web pages: career, expertise, measured results, stack decisions and the AI layer.',
+    'Five 14-second films on a frontend architecture career, built as deterministic web pages: career, expertise, measured results, stack decisions and the AI layer.',
   openGraph: {
     title: 'Motion Reel — Five Short Films | Aayush Singh',
     description:
