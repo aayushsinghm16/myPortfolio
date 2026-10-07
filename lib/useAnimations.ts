@@ -40,6 +40,10 @@ export function useScrollReveal(threshold = 0.15) {
     // Check if already in viewport (above fold)
     const rect = el.getBoundingClientRect();
     if (rect.top < window.innerHeight && rect.bottom > 0) {
+      // getBoundingClientRect is a layout read, which needs a mounted DOM.
+      // Elements already above the fold are marked visible immediately rather
+      // than waiting a frame for the observer.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsVisible(true);
       return;
     }

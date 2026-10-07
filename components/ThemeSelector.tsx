@@ -49,6 +49,9 @@ export default function ThemeSelector() {
   // Reflect whatever is already applied when the dialog first mounts.
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
+    // Same as ThemeContext: localStorage and the dark class on <html> are
+    // browser-only, so they can only be read after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (saved && PRESETS.some(p => p.name === saved)) setActive(saved);
     setIsDark(document.documentElement.classList.contains('dark'));
   }, []);

@@ -17,6 +17,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Reading localStorage and URL params is only possible after mount — the
+    // server has neither, so this cannot move into render without causing a
+    // hydration mismatch. This is the "read from an external system" case the
+    // rule's own guidance allows, not a cascading render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     // Check URL params on mount
     if (typeof window !== 'undefined') {
