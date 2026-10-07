@@ -1,6 +1,9 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Theme, themes } from './themes';
+import { useLocalValue, useQueryFlag, writeLocal } from './browserStore';
+
+const STORAGE_KEY = 'selectedTheme';
 
 interface ThemeContextType {
   currentTheme: Theme;
@@ -11,92 +14,77 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/**
+ * Theme provider, backed by useSyncExternalStore rather than a mount effect.
+ *
+ * What changed and why:
+ *
+ * - localStorage is now the single source of truth for the chosen theme, read
+ *   through useLocalValue. Previously the saved name was copied into React
+ *   state on mount, which meant two sources that could disagree and an extra
+ *   render pass on every page load. setTheme now writes to the store and the
+ *   subscription re-renders — one direction, no copy.
+ *
+ * - The `mounted` flag is gone. It existed to avoid a hydration mismatch, which
+ *   useSyncExternalStore handles properly via getServerSnapshot: the server and
+ *   the hydration pass both see null, then the client swaps in the real value.
+ *   The old version rendered a throwaway provider with a no-op setTheme on the
+ *   first pass, so a click landing in that window did nothing.
+ *
+ * - `?theme=true` is read the same way. It is combined with an override so the
+ *   dialog can still be closed: the user's choice wins once they make one,
+ *   otherwise the URL decides.
+ */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [currentTheme, setCurrentTheme] = useState<Theme>(themes[0]); // Default to Indigo
-  const [isThemeSelectorOpen, setIsThemeSelectorOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const savedThemeName = useLocalValue(STORAGE_KEY);
+  const urlWantsSelector = useQueryFlag('theme');
+
+  // null = the user has not opened or closed it yet, so the URL still decides.
+  const [openOverride, setOpenOverride] = useState<boolean | null>(null);
+  const isThemeSelectorOpen = openOverride ?? urlWantsSelector;
+
+  const currentTheme =
+    (savedThemeName ? themes.find(t => t.name === savedThemeName) : undefined) ?? themes[0];
 
   useEffect(() => {
-    // Reading localStorage and URL params is only possible after mount — the
-    // server has neither, so this cannot move into render without causing a
-    // hydration mismatch. This is the "read from an external system" case the
-    // rule's own guidance allows, not a cascading render.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-    // Check URL params on mount
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('theme') === 'true') {
-        setIsThemeSelectorOpen(true);
-      }
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
 
-      // Load saved theme from localStorage
-      const savedTheme = localStorage.getItem('selectedTheme');
-      if (savedTheme) {
-        const theme = themes.find(t => t.name === savedTheme);
-        if (theme) {
-          setCurrentTheme(theme);
-        }
-      }
+    // No explicit choice -> let app/tokens.css own the accent. Writing here
+    // unconditionally is what made the header render in the previous theme's
+    // colour after the token system landed.
+    if (!savedThemeName) {
+      root.style.removeProperty('--primary');
+      root.style.removeProperty('--primary-dark');
+      root.style.removeProperty('--primary-light');
+      root.style.removeProperty('--primary-rgb');
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    // Apply theme to CSS variables
-    if (typeof document !== 'undefined') {
-      const root = document.documentElement;
+    root.style.setProperty('--primary', currentTheme.primary);
+    root.style.setProperty('--primary-dark', currentTheme.primaryDark);
+    root.style.setProperty('--primary-light', currentTheme.primaryLight);
 
-      // No explicit choice -> let app/tokens.css own the accent. Writing here
-      // unconditionally is what made the header render in the previous theme's
-      // colour after the token system landed.
-      if (typeof window !== 'undefined' && !localStorage.getItem('selectedTheme')) {
-        root.style.removeProperty('--primary');
-        root.style.removeProperty('--primary-dark');
-        root.style.removeProperty('--primary-light');
-        root.style.removeProperty('--primary-rgb');
-        return;
-      }
+    // Convert hex to RGB for gradients and opacity variations
+    const hexToRgb = (hex: string) => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) }
+        : null;
+    };
 
-      root.style.setProperty('--primary', currentTheme.primary);
-      root.style.setProperty('--primary-dark', currentTheme.primaryDark);
-      root.style.setProperty('--primary-light', currentTheme.primaryLight);
-
-      // Convert hex to RGB for gradients and opacity variations
-      const hexToRgb = (hex: string) => {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        } : null;
-      };
-
-      const primaryRgb = hexToRgb(currentTheme.primary);
-      if (primaryRgb) {
-        root.style.setProperty('--primary-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
-      }
+    const primaryRgb = hexToRgb(currentTheme.primary);
+    if (primaryRgb) {
+      root.style.setProperty('--primary-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
     }
-  }, [currentTheme]);
+  }, [currentTheme, savedThemeName]);
 
-  const setTheme = (theme: Theme) => {
-    setCurrentTheme(theme);
-    // Store in localStorage for persistence (optional)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('selectedTheme', theme.name);
-    }
-  };
-
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return (
-      <ThemeContext.Provider value={{ currentTheme: themes[0], setTheme: () => {}, isThemeSelectorOpen: false, setIsThemeSelectorOpen: () => {} }}>
-        {children}
-      </ThemeContext.Provider>
-    );
-  }
+  const setTheme = (theme: Theme) => writeLocal(STORAGE_KEY, theme.name);
 
   return (
-    <ThemeContext.Provider value={{ currentTheme, setTheme, isThemeSelectorOpen, setIsThemeSelectorOpen }}>
+    <ThemeContext.Provider
+      value={{ currentTheme, setTheme, isThemeSelectorOpen, setIsThemeSelectorOpen: setOpenOverride }}
+    >
       {children}
     </ThemeContext.Provider>
   );

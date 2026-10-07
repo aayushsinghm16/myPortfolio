@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTheme } from '@/lib/ThemeContext';
+import { useLocalValue, useIsDark, writeLocal } from '@/lib/browserStore';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from '@/components/ui/dialog';
@@ -43,18 +44,14 @@ const STORAGE_KEY = 'accentPreset';
 
 export default function ThemeSelector() {
   const { isThemeSelectorOpen, setIsThemeSelectorOpen } = useTheme();
-  const [active, setActive] = useState<string>(PRESETS[0].name);
-  const [isDark, setIsDark] = useState(false);
 
-  // Reflect whatever is already applied when the dialog first mounts.
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    // Same as ThemeContext: localStorage and the dark class on <html> are
-    // browser-only, so they can only be read after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (saved && PRESETS.some(p => p.name === saved)) setActive(saved);
-    setIsDark(document.documentElement.classList.contains('dark'));
-  }, []);
+  // Both derived from external stores rather than copied into state on mount.
+  // The saved preset comes from localStorage; isDark comes from the class on
+  // <html> via a MutationObserver, so it stays correct no matter which code
+  // path flips the appearance — including one outside this component.
+  const saved = useLocalValue(STORAGE_KEY);
+  const active = saved && PRESETS.some(p => p.name === saved) ? saved : PRESETS[0].name;
+  const isDark = useIsDark();
 
   const apply = (preset: Preset) => {
     const root = document.documentElement;
@@ -63,8 +60,8 @@ export default function ThemeSelector() {
     root.style.setProperty('--color-accent-hover', dark ? preset.light : preset.dark);
     root.style.setProperty('--color-accent-ink', preset.ink);
     root.style.setProperty('--color-focus', dark ? preset.dark : preset.light);
-    setActive(preset.name);
-    localStorage.setItem(STORAGE_KEY, preset.name);
+    // The write notifies the store, which re-renders with the new active preset.
+    writeLocal(STORAGE_KEY, preset.name);
   };
 
   const toggleAppearance = () => {
@@ -72,8 +69,9 @@ export default function ThemeSelector() {
     const next = !root.classList.contains('dark');
     root.classList.toggle('dark', next);
     root.classList.toggle('light', !next);
-    localStorage.setItem('appearance', next ? 'dark' : 'light');
-    setIsDark(next);
+    writeLocal('appearance', next ? 'dark' : 'light');
+    // No setIsDark: toggling the class above is itself the state change, and
+    // the MutationObserver behind useIsDark picks it up.
     // re-apply so the accent picks the right variant for the new ground
     const preset = PRESETS.find(p => p.name === active);
     if (preset) {
@@ -87,8 +85,7 @@ export default function ThemeSelector() {
     const root = document.documentElement;
     ['--color-accent', '--color-accent-hover', '--color-accent-ink', '--color-focus']
       .forEach(v => root.style.removeProperty(v));
-    localStorage.removeItem(STORAGE_KEY);
-    setActive(PRESETS[0].name);
+    writeLocal(STORAGE_KEY, null);
   };
 
   return (
