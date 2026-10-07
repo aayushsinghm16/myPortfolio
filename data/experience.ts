@@ -127,20 +127,23 @@ export const experienceData: Experience[] = [
         skills: ["Python", "Flask", "MongoDB", "Google Maps API", "Matplotlib", "JavaScript", "jQuery"]
     },
     {
-        // The record previously jumped straight from Ericsson to IIT Delhi, which
-        // read as a 12-month gap. It was not one: this period was freelance
-        // frontend work and self-directed projects, and it is where the move out
-        // of telecom into software actually happened.
-        // TODO(aayush): fill in the clients/projects and the real tech list.
-        company: "Freelance",
-        role: "Frontend Developer",
+        // The record previously jumped from Ericsson straight to IIT Delhi, which
+        // read as a 12-month gap. It was not one — this period was frontend work
+        // and self-directed projects, and it is where the move out of telecom
+        // into software happened.
+        //
+        // Framed as a focus period rather than a formal role, matching the 2025
+        // entry: it belongs in the timeline so the continuity is visible, without
+        // presenting itself as an employment position. No skills list, because
+        // the specifics are not mine to assert.
+        company: "Independent — Frontend Development",
+        role: "Career Focus Period",
         period: "June 2014 - June 2015",
-        type: "Freelance",
-        context: "Client frontend work alongside self-directed projects — the move from telecom into software",
+        type: "Independent",
+        context: "Transition out of telecom into software — frontend work and self-directed projects",
         achievements: [
-            "Took on freelance frontend work and built self-directed projects while transitioning out of telecom — the period the shift from hardware systems to interfaces actually happened."
-        ],
-        skills: ["JavaScript", "HTML5 / CSS3", "Frontend Development"]
+            "Moved from telecom into software, working on frontend and building self-directed projects — the point the shift from hardware systems to interfaces actually happened."
+        ]
     },
     {
         company: "Ericsson · Schmid Telecom AG",
