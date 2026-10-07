@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { skillCategories, depthLegend, leadershipSkills, learningJourneyQuote } from '../../data/skills';
+import { films } from '../../data/films';
+import { Film } from '../../components/Film';
 
 /**
  * Capability matrix.
@@ -55,6 +57,23 @@ export default function SkillsPage() {
               </div>
             ))}
           </dl>
+
+          {/* The same five domains as the matrix above, as a 14s film — a
+              selection bracket walks each diagram and names its parts. */}
+          <Film
+            src={films[1].slug + '.mp4'}
+            poster={films[1].slug + '-poster.webp'}
+            title={films[1].title}
+            caption={`Fig. — ${films[1].tagline}`}
+            runtime={films[1].runtime}
+            description={films[1].alt}
+          />
+          <Link
+            href="/reel"
+            className="inline-block mt-4 font-mono text-xs uppercase tracking-[0.1em] text-muted border-b border-rule pb-0.5 hover:text-accent hover:border-accent transition-colors duration-fast"
+          >
+            Four more films <span aria-hidden="true">&rarr;</span>
+          </Link>
         </section>
 
         <section className="mt-9" aria-labelledby="leadership-heading">

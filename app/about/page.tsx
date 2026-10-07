@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { personalInfo } from '../../data/personal';
 import { experienceData } from '../../data/experience';
 import { educationHistory } from '../../data/education';
+import { films } from '../../data/films';
+import { Film } from '../../components/Film';
 import { principles } from '../../data/principles';
 
 /**
@@ -90,6 +92,24 @@ export default function AboutPage() {
               </li>
             ))}
           </ol>
+
+          {/* The same eleven years as the list above, as a 14s film. It sits
+              inside the Track record section rather than in one of its own,
+              because it is the same argument in a different medium. */}
+          <Film
+            src={films[0].slug + '.mp4'}
+            poster={films[0].slug + '-poster.webp'}
+            title={films[0].title}
+            caption={`Fig. — ${films[0].tagline}`}
+            runtime={films[0].runtime}
+            description={films[0].alt}
+          />
+          <Link
+            href="/reel"
+            className="inline-block mt-4 font-mono text-xs uppercase tracking-[0.1em] text-muted border-b border-rule pb-0.5 hover:text-accent hover:border-accent transition-colors duration-fast"
+          >
+            Four more films <span aria-hidden="true">→</span>
+          </Link>
         </section>
 
         {/* ── Principles ───────────────────────────────────────── */}

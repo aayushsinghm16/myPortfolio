@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { aiIntro, aiRecords, aiToolingFacts, skillExhibit, guardrailMatrix, otherAiRepos } from '../../data/ai';
 import { GuardrailFlowDiagram, McpBoundaryDiagram, AgentLoopDiagram } from '../../components/AiDiagrams';
+import { Film } from '../../components/Film';
+import { films } from '../../data/films';
 
 /**
  * /ai — the full AI & agentic systems page.
@@ -26,6 +28,24 @@ export default function AiPage() {
             <span className="chip">Model evaluation</span>
           </div>
         </header>
+
+        {/* The page's own argument, as a 14s film. It leads because it makes the
+            case faster than the sections below it can, and they then supply the
+            evidence. */}
+        <Film
+          src={films[4].slug + '.mp4'}
+          poster={films[4].slug + '-poster.webp'}
+          title={films[4].title}
+          caption={`Fig. — ${films[4].tagline}`}
+          runtime={films[4].runtime}
+          description={films[4].alt}
+        />
+        <Link
+          href="/reel"
+          className="inline-block mt-4 font-mono text-xs uppercase tracking-[0.1em] text-muted border-b border-rule pb-0.5 hover:text-accent hover:border-accent transition-colors duration-fast"
+        >
+          Four more films <span aria-hidden="true">&rarr;</span>
+        </Link>
 
         {/* ── §01 Scope ──────────────────────────────────────────── */}
         <section className="mt-9" aria-labelledby="scope-heading">
@@ -218,6 +238,38 @@ export default function AiPage() {
               <code>{skillExhibit.code}</code>
             </pre>
           </div>
+
+          <Film
+            src="/motion/agent-run.mp4"
+            poster="/motion/agent-run-poster.webp"
+            title="A content agent, running on its own — a recording of one unattended run"
+            caption="Fig. — one unattended run, real numbers from the pool"
+            runtime="12s"
+            description={
+              <>
+                <p>
+                  A title card reads <em>A content agent, running on its own — real output from
+                  the daily run</em>. It cuts to a terminal. A strip across the top holds the
+                  run&apos;s numbers: 6,563 questions in the pool, 779 topics, 20 authored per
+                  run, 2 rejected today.
+                </p>
+                <p>
+                  Four commands execute in sequence while a rail on the right advances through
+                  five steps. <code>pool-stats</code> reports the pool. <code>list-topics</code>{' '}
+                  ranks coverage and Go comes last at 37 topics, flagged{' '}
+                  <em>lowest coverage</em>. The agent authors twenty items against a strict
+                  schema. The insert script then validates them: 18 valid, 1 rejected because
+                  the correct answer did not match any choice, 1 rejected because a distractor
+                  was under ten characters.
+                </p>
+                <p>
+                  The run closes on <em>Inserted: 18 · Skipped (dupe): 0 · Failed: 2</em>,
+                  verified in the pool and marked done. A line along the bottom states the
+                  point: <strong>the validator rejects — it does not repair.</strong>
+                </p>
+              </>
+            }
+          />
         </section>
 
         {/* ── §05 Boundary ───────────────────────────────────────── */}
