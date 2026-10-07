@@ -15,7 +15,7 @@ import { personalInfo } from '../data/personal';
  */
 
 const fields = [
-  { k: 'Discipline', v: 'Frontend architecture, design systems, build & release' },
+  { k: 'Discipline', v: 'Frontend architecture, design systems, AI platform engineering' },
   { k: 'Domains', v: 'Regulated fintech · Enterprise e-commerce · Real-time 3D' },
   { k: 'Core stack', v: 'React · Next.js · TypeScript · GraphQL · NX' },
   { k: 'Based', v: 'Ghaziabad, India (IST) — open to anywhere' },

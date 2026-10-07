@@ -39,7 +39,9 @@ export const experienceData: Experience[] = [
         type: "Independent",
         context: "Deliberate upskilling block between engagements",
         achievements: [
-            "Went deep on GenAI engineering — Model Context Protocol, Claude Code, LLM workflow design and prompt engineering — and shipped QuizKode, an AI-powered quiz platform on Next.js and TypeScript with real-time code evaluation.",
+            "Built two MCP servers: one giving an AI agent audited, read-mostly access to a business database — AST-allowlisted SQL, PII masking and two-step writes — and one exposing a design system to LLMs as typed tools.",
+            "Put four Claude Code agents on a schedule, running unattended with schema-validated output, idempotent queues and verify-before-commit, and authored the skills and hooks behind them.",
+            "Shipped QuizKode, an AI-powered quiz platform on Next.js and TypeScript with real-time code evaluation, and benchmarked two models against the real authoring task before choosing one.",
             "Adopted AI-assisted development as a working practice with review gates, so generated code clears the same bar as hand-written code."
         ],
         skills: ["Next.js", "TypeScript", "Model Context Protocol", "LLM Workflows", "Prompt Engineering", "Supabase", "Vercel"]

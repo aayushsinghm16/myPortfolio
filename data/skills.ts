@@ -65,6 +65,22 @@ export const graphicsMotionSkills: Skill[] = [
   { name: "SVG", proficiency: 85, depth: "Advanced" }
 ];
 
+/**
+ * AI & agentic systems. Benchmark note: two models were run against the real
+ * authoring task; raw output was captured but no scored write-up exists, so
+ * "Advanced" here reflects shipped systems, not a published evaluation.
+ */
+export const aiSkills: Skill[] = [
+  { name: "MCP Server Design", proficiency: 90, depth: "Expert" },
+  { name: "Agentic Workflows", proficiency: 90, depth: "Expert" },
+  { name: "Claude Code Skills & Hooks", proficiency: 90, depth: "Expert" },
+  { name: "LLM Guardrails", proficiency: 88, depth: "Advanced" },
+  { name: "Prompt Engineering", proficiency: 88, depth: "Advanced" },
+  { name: "Anthropic SDK", proficiency: 85, depth: "Advanced" },
+  { name: "RAG / Grounding", proficiency: 82, depth: "Advanced" },
+  { name: "Model Evaluation", proficiency: 78, depth: "Working" }
+];
+
 export const backendTechnologies: Skill[] = [
   { name: "REST API Design", proficiency: 92, depth: "Expert" },
   { name: "GraphQL", proficiency: 88, depth: "Advanced" },
@@ -116,6 +132,7 @@ export const learningJourneyQuote =
 export const skillCategories = [
   { category: "Architecture", skills: architectureSkills },
   { category: "Core Frontend", skills: frontendTechnologies },
+  { category: "AI & Agents", skills: aiSkills },
   { category: "Graphics & Motion", skills: graphicsMotionSkills },
   { category: "Languages", skills: programmingLanguages },
   { category: "Platform & Quality", skills: devTools },

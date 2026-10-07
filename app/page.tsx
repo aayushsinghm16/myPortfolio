@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection';
 import PrinciplesSection from '../components/PrinciplesSection';
 import ProjectsSection from '../components/ProjectsSection';
 import SkillsSection from '../components/SkillsSection';
+import AiSection from '../components/AiSection';
 import TrackRecordSection from '../components/TrackRecordSection';
 import ContactCta from '../components/ContactCta';
 
@@ -15,6 +16,7 @@ export default function Page() {
             <PrinciplesSection />
             <ProjectsSection />
             <SkillsSection />
+            <AiSection />
             <TrackRecordSection />
             <ContactCta />
         </>
