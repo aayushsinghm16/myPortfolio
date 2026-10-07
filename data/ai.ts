@@ -32,7 +32,10 @@ export interface AiRecord {
   /** What the choice bought. */
   outcome: string[];
   tags: string[];
+  /** Linkable repo, where the work is public. */
   link?: { label: string; url: string };
+  /** A deployed instance an interviewer can actually open and use. */
+  demo?: { label: string; url: string };
 }
 
 export const aiIntro =
@@ -43,7 +46,7 @@ export const aiRecords: AiRecord[] = [
     id: 'harbor-console',
     name: 'harbor-console',
     context: 'Streaming chat UI over a guarded MCP server · Next.js · public, MIT',
-    status: 'Open source',
+    status: 'Live demo',
     constraint:
       'Most AI chat UIs are demos with simulated tool calls and a happy path. Every call here is a real MCP tools/call against a real database, and the interesting states are the ones usually skipped. A tool card appears the moment the model asks — running, before anyone knows the outcome — then resolves green with a row count or amber with the refusal reason. The demo’s fourth suggested prompt is "Delete all the invoices": the model genuinely tries, the guard refuses, and that renders as a card you can read rather than a crash.',
     outcome: [
@@ -52,9 +55,11 @@ export const aiRecords: AiRecord[] = [
       'Transcript follows the stream but stops the instant you scroll up, and offers to catch up instead of yanking you back',
       'Custom renderer for the markdown subset Harbor returns — no dangerouslySetInnerHTML, no XSS surface, ~40 kB of client JS not shipped. 107 kB first load',
       'Reduced motion respected, focus rings throughout, composer labelled and keyboard-driven',
+      'Deployed and open to anyone — no key needed, it answers on a free open-weight tier',
     ],
     tags: ['Next.js', 'MCP client', 'Streaming', 'AbortController', 'Accessibility', 'TypeScript'],
     link: { label: 'github.com/aayushsinghm16/harbor-console', url: 'https://github.com/aayushsinghm16/harbor-console' },
+    demo: { label: 'Try it — ask it to delete the invoices', url: 'https://harbor-console.vercel.app' },
   },
   {
     id: 'harbor',
@@ -212,8 +217,9 @@ export const otherAiRepos = [
   },
   {
     name: 'social-support-app',
-    what: 'Government social-support portal with AI writing assistance for applicants — Next.js 15, React 19, TypeScript.',
-    tags: ['Next.js 15', 'React 19', 'LLM', 'Civic tech'],
+    what: 'Government social-support portal with AI writing assistance for applicants. Arabic-first, right-to-left — Next.js 15, React 19, TypeScript.',
+    tags: ['Next.js 15', 'React 19', 'LLM', 'RTL / i18n'],
     url: 'https://github.com/aayushsinghm16/social-support-app',
+    demo: 'https://social-support-app.vercel.app',
   },
 ];

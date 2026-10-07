@@ -54,19 +54,32 @@ export default function AiSection() {
                   <h3 className="text-md font-semibold text-ink">{r.name}</h3>
                   <p className="font-mono text-sm text-muted mt-1">{r.context}</p>
                 </div>
-                {r.link ? (
-                  <a
-                    href={r.link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-mono text-xs uppercase tracking-[0.1em] text-accent border-b border-accent pb-0.5 whitespace-nowrap hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
-                  >
-                    {r.status} <span aria-hidden="true">↗</span>
-                    <span className="sr-only">— opens {r.link.label} in a new tab</span>
-                  </a>
-                ) : (
-                  <span className="chip whitespace-nowrap">{r.status}</span>
-                )}
+                <div className="flex flex-col items-end gap-2">
+                  {r.demo && (
+                    <a
+                      href={r.demo.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn whitespace-nowrap"
+                    >
+                      {r.demo.label} <span aria-hidden="true">↗</span>
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  )}
+                  {r.link ? (
+                    <a
+                      href={r.link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-xs uppercase tracking-[0.1em] text-accent border-b border-accent pb-0.5 whitespace-nowrap hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
+                    >
+                      Source <span aria-hidden="true">↗</span>
+                      <span className="sr-only">— {r.link.label}, opens in a new tab</span>
+                    </a>
+                  ) : (
+                    <span className="chip whitespace-nowrap">{r.status}</span>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 border-b border-rule">
