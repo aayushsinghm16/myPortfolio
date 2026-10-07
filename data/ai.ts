@@ -4,10 +4,17 @@
  * Framing rules applied here, so later edits keep them:
  * - harbor-mcp-server is a reference implementation built as an Upwork
  *   portfolio piece, not client production work. It is described as such.
+ * - The design system MCP server was built at Publicis Sapient and is their
+ *   IP. It is described by the problem it solved, carries no link or repo,
+ *   and the internal library name is deliberately omitted. Describing that
+ *   you built an internal tool is normal; publishing it is not.
  * - The scheduled publishing agent is described by its mechanics only. The
  *   account it drives is deliberately not named.
  * - The model benchmark produced raw output but no scored write-up, so no
  *   winner is claimed. "Benchmarked" is the honest verb.
+ * - Component scope is left unenumerated on purpose: the local copy of the
+ *   source types components as 'atom' | 'molecule' only, with no mention of
+ *   organisms anywhere in it. Saying "real components" is true either way.
  */
 
 export interface AiRecord {
@@ -45,14 +52,14 @@ export const aiRecords: AiRecord[] = [
     tags: ['MCP', 'TypeScript', 'AST parsing', 'SQL guardrails', 'PII masking', 'Audit logging'],
   },
   {
-    id: 'polymer-ds',
-    name: 'mcp-polymer-ds',
-    context: 'MCP server · design system exposed to LLMs',
-    status: 'Internal tool',
+    id: 'design-system-mcp',
+    name: 'Design system, exposed to LLMs',
+    context: 'MCP server · built at Publicis Sapient · internal tooling',
+    status: 'Employer work — not public',
     constraint:
-      'Agents writing UI reinvent components that already exist, because they cannot see the design system. Dumping component source into the context window is expensive and goes stale the moment the library moves. I exposed the system as five typed MCP tools instead — discovery, component detail, search, generated usage, and the correct import statement — reading the library from a read-only mount so the tool can never be the thing that breaks it.',
+      'Agents writing UI reinvent components that already exist, because they cannot see the design system. Pasting component source into the context window is expensive and goes stale the moment the library moves. I exposed the library as typed MCP tools instead — discovery, component detail, search, generated usage, and the correct import statement — reading from a read-only mount so the tool can never be the thing that breaks the library.',
     outcome: [
-      'An agent can discover, inspect and correctly import real atoms and molecules',
+      'An agent can discover, inspect and correctly import real components instead of inventing them',
       'The design system becomes an agent-callable API rather than pasted context',
       'Containerised, with the component library mounted read-only',
     ],

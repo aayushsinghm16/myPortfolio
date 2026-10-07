@@ -14,7 +14,7 @@ import { McpBoundaryDiagram } from './AiDiagrams';
  */
 export default function AiSection() {
   const featured = aiRecords.filter(r =>
-    ['harbor', 'polymer-ds', 'portfolio-assistant'].includes(r.id)
+    ['harbor', 'design-system-mcp', 'portfolio-assistant'].includes(r.id)
   );
 
   return (
