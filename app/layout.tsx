@@ -8,6 +8,7 @@ import { ThemeProvider } from '../lib/ThemeContext';
 import DeferredWidgets from '../components/DeferredWidgets';
 import NetworkBackground from '../components/NetworkBackground';
 import type { Metadata } from 'next';
+import { themeRestoreScript } from '../lib/themeScript';
 
 // IBM Plex Sans — Swiss-influenced, engineering-grade. Static-only on Google
 // Fonts, so weights are explicit. 300 is unused today but kept for the light
@@ -131,6 +132,10 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${plex.variable} ${mono.variable}`}>
             <head>
+                {/* Must be first and must not be deferred: it runs before the
+                    body paints, which is the whole point. Anything async here
+                    reintroduces the flash it exists to remove. */}
+                <script dangerouslySetInnerHTML={{ __html: themeRestoreScript() }} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
