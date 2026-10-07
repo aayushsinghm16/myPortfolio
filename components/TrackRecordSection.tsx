@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { experienceData } from '../data/experience';
+import { films } from '../data/films';
+import { Film } from './Film';
 
 /**
  * §05 Track record — experience surfaced on the home page.
@@ -45,12 +47,32 @@ export default function TrackRecordSection() {
           ))}
         </ol>
 
-        <Link
-          href="/about"
-          className="inline-block mt-5 font-mono text-xs uppercase tracking-[0.1em] text-accent border-b border-accent pb-0.5 hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
-        >
-          Full history <span aria-hidden="true">→</span>
-        </Link>
+        {/* Receipts, not the career film: the list above already IS the career,
+            so the film that adds something here is the one with the numbers. The
+            career film lives on /about next to the full history. */}
+        <Film
+          src={films[2].slug + '.mp4'}
+          poster={films[2].slug + '-poster.webp'}
+          title={films[2].title}
+          caption={`Fig. — ${films[2].tagline}`}
+          runtime={films[2].runtime}
+          description={films[2].alt}
+        />
+
+        <div className="flex flex-wrap gap-x-6 gap-y-3 mt-5">
+          <Link
+            href="/about"
+            className="inline-block font-mono text-xs uppercase tracking-[0.1em] text-accent border-b border-accent pb-0.5 hover:text-accent-hover hover:border-accent-hover transition-colors duration-fast"
+          >
+            Full history <span aria-hidden="true">→</span>
+          </Link>
+          <Link
+            href="/reel"
+            className="inline-block font-mono text-xs uppercase tracking-[0.1em] text-muted border-b border-rule pb-0.5 hover:text-accent hover:border-accent transition-colors duration-fast"
+          >
+            Five short films <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

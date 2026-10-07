@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { projects } from '../../data/projects';
+import { films } from '../../data/films';
+import { Film } from '../../components/Film';
 
 /**
  * Case records index.
@@ -48,6 +51,23 @@ export default function ProjectsPage() {
             the choice bought.
           </p>
         </header>
+
+        {/* The six projects below, as a 14s film. Constraint first, stack second
+            — the same order the case records use. */}
+        <Film
+          src={films[3].slug + '.mp4'}
+          poster={films[3].slug + '-poster.webp'}
+          title={films[3].title}
+          caption={`Fig. — ${films[3].tagline}`}
+          runtime={films[3].runtime}
+          description={films[3].alt}
+        />
+        <Link
+          href="/reel"
+          className="inline-block mt-4 font-mono text-xs uppercase tracking-[0.1em] text-muted border-b border-rule pb-0.5 hover:text-accent hover:border-accent transition-colors duration-fast"
+        >
+          Four more films <span aria-hidden="true">&rarr;</span>
+        </Link>
 
         <div
           role="group"
