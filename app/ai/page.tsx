@@ -40,6 +40,12 @@ export default function AiPage() {
           runtime={films[4].runtime}
           description={films[4].alt}
         />
+        <Link
+          href="/reel"
+          className="inline-block mt-4 font-mono text-xs uppercase tracking-[0.1em] text-muted border-b border-rule pb-0.5 hover:text-accent hover:border-accent transition-colors duration-fast"
+        >
+          Four more films <span aria-hidden="true">&rarr;</span>
+        </Link>
 
         {/* ── §01 Scope ──────────────────────────────────────────── */}
         <section className="mt-9" aria-labelledby="scope-heading">
@@ -278,76 +284,6 @@ export default function AiPage() {
               Fig. — credentials stay server-side; only typed, bounded results cross back
             </figcaption>
           </figure>
-        </section>
-
-        {/* ── §06 Motion ─────────────────────────────────────────── */}
-        <section className="mt-9" aria-labelledby="motion-heading">
-          <div className="section-head">
-            <span className="label-mono">§ 06 — Motion</span>
-            <h2 id="motion-heading" className="section-title">Rendered, not recorded</h2>
-          </div>
-          <p className="text-sm text-muted mt-3 max-w-[66ch]">
-            Neither film above was shot or edited in a timeline. Both are web pages. Each
-            exposes a single function, <code>setFrame(n)</code>, which makes every frame a pure
-            function of its index — no <code>requestAnimationFrame</code>, no CSS transitions,
-            no wall clock. A headless browser steps through the frames and screenshots each
-            one; ffmpeg assembles them at 60fps. Because frame <em>n</em> never depends on how
-            the renderer got there, a re-render is byte-identical and a single bad shot can be
-            re-rendered on its own instead of re-exporting the film.
-          </p>
-          <p className="text-sm text-muted mt-3 max-w-[66ch]">
-            The sound is synthesised the same way — oscillators, envelopes and filters written
-            straight to a WAV in Node. Nothing is sampled, so a cue is re-tuned by changing a
-            number rather than re-sourcing a file. The story film below is 2,790 frames, graded
-            shot by shot and re-rendered until each shot held up.
-          </p>
-
-          <Film
-            src="/motion/the-layer-underneath.mp4"
-            poster="/motion/the-layer-underneath-poster.webp"
-            title="The Layer Underneath — a short film about infrastructure"
-            caption="Fig. — eleven years, nine shots, 2,790 deterministic frames"
-            runtime="47s"
-            description={
-              <>
-                <p>
-                  Nine shots, each with an animated diagram drawn as SVG on the same design
-                  tokens as this site.
-                </p>
-                <p>
-                  <strong>Title.</strong> <em>The Layer Underneath — eleven years of building
-                  the thing other things stand on.</em>{' '}
-                  <strong>2012.</strong> Telecom and RF: routers, gateways, outages at 3am —
-                  you learn what a system is when it is physical.{' '}
-                  <strong>2015.</strong> A national housing portal for the Ministry of Rural
-                  Development at IIT Delhi; researchers drew a region on a map and the code
-                  resolved every point inside it. Same job, different substrate.
-                </p>
-                <p>
-                  <strong>2019, Foyr.</strong> A browser-based 3D design tool, and a
-                  bidirectional bridge between the interaction layer and the engine — change a
-                  value and the canvas moves, move the canvas and the value follows. 100K+
-                  designers, 30+ countries.{' '}
-                  <strong>Foundation.</strong> Atoms, molecules, organisms: a shared vocabulary
-                  so a team stops re-deciding the same thing. Built from scratch, twice.
-                </p>
-                <p>
-                  <strong>2025, Publicis Sapient.</strong> An NX monorepo serving five brands
-                  across twelve locales — CSRF, a GraphQL proxy holding the credentials, SSR
-                  with hydration. Nobody sees it; everybody stands on it.
-                </p>
-                <p>
-                  <strong>A new consumer.</strong> The model wants the database, so it gets
-                  what every consumer before it got: a typed contract, a boundary it cannot
-                  reach past, and the right to be told no.{' '}
-                  <strong>The refusal.</strong> A request arrives —{' '}
-                  <code>DELETE FROM invoices</code> — and is refused: parsed to an AST, only
-                  SELECT is permitted. <em>Not a crash. A decision.</em>{' '}
-                  <strong>Close.</strong> <em>Same job. Build the layer underneath.</em>
-                </p>
-              </>
-            }
-          />
         </section>
 
         <div className="panel panel-strong p-6 lg:p-8 mt-9 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center">
